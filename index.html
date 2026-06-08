@@ -1,0 +1,2118 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FOL — Formación y Orientación Laboral</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,600;0,700;1,300&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0a0e1a;
+  --surface: #111827;
+  --card: #1a2236;
+  --border: #2a3a55;
+  --accent1: #00d4aa;
+  --accent2: #4f8ef7;
+  --accent3: #f7c948;
+  --accent4: #f76e4f;
+  --accent5: #c084fc;
+  --text: #e8eaf0;
+  --muted: #7a8aa0;
+  --glow1: rgba(0,212,170,0.15);
+  --glow2: rgba(79,142,247,0.15);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px;
+  line-height: 1.65;
+  overflow-x: hidden;
+}
+
+/* ── NOISE OVERLAY ─── */
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none; z-index: 9999; opacity: 0.4;
+}
+
+/* ── HEADER ─── */
+.hero {
+  min-height: 100vh;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  text-align: center; padding: 4rem 2rem;
+  background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(79,142,247,0.18) 0%, transparent 70%),
+              radial-gradient(ellipse 60% 40% at 80% 80%, rgba(0,212,170,0.12) 0%, transparent 60%),
+              var(--bg);
+  position: relative; overflow: hidden;
+}
+
+.hero-grid {
+  position: absolute; inset: 0;
+  background-image: linear-gradient(rgba(42,58,85,0.3) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(42,58,85,0.3) 1px, transparent 1px);
+  background-size: 60px 60px;
+  mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%);
+}
+
+.badge {
+  display: inline-block;
+  background: var(--glow1);
+  border: 1px solid var(--accent1);
+  color: var(--accent1);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
+  padding: 6px 16px; border-radius: 999px;
+  margin-bottom: 1.5rem;
+  animation: fadeUp 0.6s ease both;
+}
+
+h1.title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(4rem, 12vw, 9rem);
+  letter-spacing: 4px;
+  line-height: 0.9;
+  background: linear-gradient(135deg, #fff 30%, var(--accent1) 70%, var(--accent2) 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  animation: fadeUp 0.7s 0.1s ease both;
+  margin-bottom: 0.5rem;
+}
+
+.subtitle {
+  font-size: 1.1rem; color: var(--muted); letter-spacing: 1px;
+  animation: fadeUp 0.7s 0.2s ease both;
+  margin-bottom: 3rem;
+}
+
+.nav-pills {
+  display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;
+  animation: fadeUp 0.7s 0.35s ease both;
+}
+
+.pill {
+  display: inline-block; padding: 8px 20px;
+  border-radius: 999px; border: 1px solid var(--border);
+  background: var(--card); color: var(--text);
+  text-decoration: none; font-size: 13px; font-weight: 600;
+  transition: all 0.25s;
+}
+.pill:hover { border-color: var(--accent1); color: var(--accent1); transform: translateY(-2px); box-shadow: 0 4px 20px var(--glow1); }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── PROGRESS BAR ─── */
+#progress-bar {
+  position: fixed; top: 0; left: 0; height: 3px; z-index: 1000;
+  background: linear-gradient(90deg, var(--accent1), var(--accent2));
+  width: 0%; transition: width 0.1s;
+}
+
+/* ── SECTIONS ─── */
+.container { max-width: 1100px; margin: 0 auto; padding: 0 2rem; }
+
+section { padding: 5rem 0; position: relative; }
+
+.section-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; letter-spacing: 4px; text-transform: uppercase;
+  color: var(--accent1); margin-bottom: 0.5rem; display: block;
+}
+
+h2.section-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  letter-spacing: 2px; line-height: 1;
+  color: #fff; margin-bottom: 2.5rem;
+}
+
+/* ── DIVIDER ─── */
+.divider {
+  border: none; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border) 30%, var(--border) 70%, transparent);
+  margin: 0;
+}
+
+/* ── CARDS ─── */
+.card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 16px; padding: 1.5rem;
+  transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
+}
+.card:hover { transform: translateY(-4px); border-color: var(--accent2); box-shadow: 0 8px 32px var(--glow2); }
+
+.grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.25rem; }
+.grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.25rem; }
+
+/* ── ACCENT CARDS ─── */
+.card-green  { border-left: 4px solid var(--accent1); }
+.card-blue   { border-left: 4px solid var(--accent2); }
+.card-yellow { border-left: 4px solid var(--accent3); }
+.card-red    { border-left: 4px solid var(--accent4); }
+.card-purple { border-left: 4px solid var(--accent5); }
+
+.card h3 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.4rem; letter-spacing: 1px;
+  margin-bottom: 0.75rem; color: #fff;
+}
+.card p, .card li { font-size: 14px; color: #bcc7d9; }
+.card ul { padding-left: 1.2rem; }
+.card ul li { margin-bottom: 4px; }
+
+/* ── TAGS ─── */
+.tag {
+  display: inline-block; padding: 3px 10px; border-radius: 6px;
+  font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700;
+  letter-spacing: 1px; text-transform: uppercase; margin: 2px;
+}
+.tag-green  { background: rgba(0,212,170,0.15); color: var(--accent1); border: 1px solid rgba(0,212,170,0.3); }
+.tag-blue   { background: rgba(79,142,247,0.15); color: var(--accent2); border: 1px solid rgba(79,142,247,0.3); }
+.tag-yellow { background: rgba(247,201,72,0.15); color: var(--accent3); border: 1px solid rgba(247,201,72,0.3); }
+.tag-red    { background: rgba(247,110,79,0.15); color: var(--accent4); border: 1px solid rgba(247,110,79,0.3); }
+.tag-purple { background: rgba(192,132,252,0.15); color: var(--accent5); border: 1px solid rgba(192,132,252,0.3); }
+
+/* ── HIGHLIGHT BOX ─── */
+.highlight {
+  background: linear-gradient(135deg, rgba(0,212,170,0.08), rgba(79,142,247,0.08));
+  border: 1px solid rgba(0,212,170,0.25);
+  border-radius: 12px; padding: 1.25rem 1.5rem;
+  margin: 1rem 0;
+}
+.highlight strong { color: var(--accent1); }
+
+/* ── TABLE ─── */
+.styled-table {
+  width: 100%; border-collapse: collapse;
+  font-size: 13px; margin: 1rem 0;
+}
+.styled-table th {
+  background: rgba(79,142,247,0.2); color: var(--accent2);
+  font-family: 'JetBrains Mono', monospace; font-size: 11px;
+  letter-spacing: 2px; text-transform: uppercase;
+  padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border);
+}
+.styled-table td {
+  padding: 10px 14px; border-bottom: 1px solid rgba(42,58,85,0.5);
+  color: #bcc7d9; vertical-align: top;
+}
+.styled-table tr:hover td { background: rgba(255,255,255,0.03); }
+
+/* ── TIMELINE ─── */
+.timeline { position: relative; padding-left: 2.5rem; }
+.timeline::before {
+  content: ''; position: absolute; left: 10px; top: 8px; bottom: 8px;
+  width: 2px; background: linear-gradient(to bottom, var(--accent1), var(--accent2), var(--accent5));
+}
+.tl-item { position: relative; margin-bottom: 1.5rem; }
+.tl-dot {
+  position: absolute; left: -2.15rem; top: 6px;
+  width: 12px; height: 12px; border-radius: 50%;
+  background: var(--accent1); border: 2px solid var(--bg);
+  box-shadow: 0 0 8px var(--accent1);
+}
+.tl-item h4 { font-weight: 700; color: #fff; margin-bottom: 4px; }
+.tl-item p  { font-size: 13px; color: var(--muted); }
+
+/* ── EXAMPLE BOX ─── */
+.example-box {
+  background: rgba(247,201,72,0.06); border: 1px solid rgba(247,201,72,0.25);
+  border-radius: 10px; padding: 1rem 1.25rem; margin: 1rem 0;
+}
+.example-box::before { content: '💡 EJEMPLO · '; font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; color: var(--accent3); letter-spacing: 2px; }
+.example-box p { font-size: 13px; color: #d0c080; margin-top: 6px; }
+
+/* ── EXERCISES ─── */
+.exercise-zone {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 20px; padding: 2rem; margin-top: 1.5rem;
+}
+.exercise-zone h3 {
+  font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem;
+  color: var(--accent3); margin-bottom: 1.5rem; letter-spacing: 1px;
+}
+
+.exercise { margin-bottom: 2rem; }
+.exercise label { display: block; font-weight: 700; color: var(--text); margin-bottom: 8px; }
+.exercise .ex-prompt { font-size: 14px; color: #bcc7d9; margin-bottom: 10px; }
+
+textarea.ex-input, input.ex-input {
+  width: 100%; background: var(--bg); border: 1px solid var(--border);
+  border-radius: 8px; color: var(--text); font-family: 'DM Sans', sans-serif;
+  font-size: 14px; padding: 10px 14px; resize: vertical; outline: none;
+  transition: border-color 0.2s;
+}
+textarea.ex-input:focus, input.ex-input:focus { border-color: var(--accent2); }
+
+.btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 10px 22px; border-radius: 8px; border: none; cursor: pointer;
+  font-family: 'DM Sans', sans-serif; font-weight: 700; font-size: 14px;
+  transition: all 0.2s;
+}
+.btn-primary { background: var(--accent1); color: #000; }
+.btn-primary:hover { background: #00efc0; transform: translateY(-1px); }
+.btn-secondary { background: var(--card); color: var(--text); border: 1px solid var(--border); }
+.btn-secondary:hover { border-color: var(--accent2); color: var(--accent2); }
+
+.ex-feedback {
+  margin-top: 10px; padding: 10px 14px; border-radius: 8px;
+  font-size: 13px; display: none;
+}
+.ex-feedback.show-good { display: block; background: rgba(0,212,170,0.12); border: 1px solid rgba(0,212,170,0.3); color: var(--accent1); }
+.ex-feedback.show-neutral { display: block; background: rgba(79,142,247,0.1); border: 1px solid rgba(79,142,247,0.3); color: var(--accent2); }
+
+/* ── DRAG-DROP ─── */
+.drag-zone { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0; min-height: 50px; }
+.drag-item {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 8px; padding: 6px 14px; cursor: grab;
+  font-size: 13px; font-weight: 600; color: var(--text);
+  user-select: none; transition: all 0.2s;
+}
+.drag-item:hover { border-color: var(--accent2); color: var(--accent2); }
+.drag-item.dragging { opacity: 0.4; }
+.drop-slot {
+  min-width: 140px; min-height: 40px;
+  border: 2px dashed var(--border); border-radius: 8px;
+  padding: 6px 14px; display: inline-flex; align-items: center; justify-content: center;
+  color: var(--muted); font-size: 12px; font-family: 'JetBrains Mono', monospace;
+  transition: border-color 0.2s;
+}
+.drop-slot.over { border-color: var(--accent1); background: var(--glow1); }
+.drop-slot.filled { border-style: solid; border-color: var(--accent1); color: var(--accent1); font-weight: 700; }
+
+/* ── MATCHING ─── */
+.match-pair { display: flex; gap: 10px; align-items: center; margin-bottom: 8px; flex-wrap: wrap; }
+.match-label { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 6px 14px; font-size: 13px; min-width: 160px; }
+.match-select {
+  background: var(--bg); border: 1px solid var(--border); border-radius: 8px;
+  color: var(--text); padding: 6px 12px; font-size: 13px; font-family: 'DM Sans', sans-serif;
+  outline: none;
+}
+.match-select:focus { border-color: var(--accent2); }
+
+/* ── FLIPCARDS ─── */
+.flipcard-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 1rem; }
+.flipcard { height: 120px; perspective: 800px; cursor: pointer; }
+.flipcard-inner {
+  width: 100%; height: 100%; position: relative;
+  transform-style: preserve-3d; transition: transform 0.5s ease;
+}
+.flipcard:hover .flipcard-inner, .flipcard.flipped .flipcard-inner { transform: rotateY(180deg); }
+.flipcard-front, .flipcard-back {
+  position: absolute; inset: 0; backface-visibility: hidden;
+  border-radius: 12px; display: flex; align-items: center; justify-content: center;
+  text-align: center; padding: 1rem; font-size: 13px; font-weight: 600;
+}
+.flipcard-front { background: var(--card); border: 1px solid var(--border); color: var(--text); }
+.flipcard-back { background: linear-gradient(135deg, rgba(0,212,170,0.2), rgba(79,142,247,0.2)); border: 1px solid var(--accent1); color: var(--accent1); transform: rotateY(180deg); }
+
+/* ── SCENARIO BUILDER ─── */
+.scenario-box {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 12px; padding: 1.5rem;
+}
+.scenario-question { font-size: 15px; font-weight: 700; color: #fff; margin-bottom: 1rem; }
+.scenario-options { display: flex; flex-direction: column; gap: 8px; }
+.scenario-option {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 8px; padding: 10px 14px; cursor: pointer;
+  font-size: 13px; transition: all 0.2s;
+}
+.scenario-option:hover { border-color: var(--accent2); color: var(--accent2); }
+.scenario-option.correct { border-color: var(--accent1)!important; background: rgba(0,212,170,0.1)!important; color: var(--accent1)!important; }
+.scenario-option.wrong { border-color: var(--accent4)!important; background: rgba(247,110,79,0.1)!important; color: var(--accent4)!important; }
+
+/* ── STATUTE ARTICLE ─── */
+.article-block {
+  border-left: 3px solid var(--accent5);
+  padding: 1rem 1.5rem; margin: 1rem 0;
+  background: rgba(192,132,252,0.06); border-radius: 0 10px 10px 0;
+}
+.article-block .art-num { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--accent5); letter-spacing: 2px; margin-bottom: 4px; display: block; }
+.article-block p { font-size: 13px; color: #c4b8d9; }
+
+/* ── SALARY CALC ─── */
+.calc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.calc-row { display: flex; flex-direction: column; gap: 4px; }
+.calc-row label { font-size: 12px; color: var(--muted); font-family: 'JetBrains Mono', monospace; letter-spacing: 1px; }
+.calc-row input { background: var(--bg); border: 1px solid var(--border); color: var(--text); padding: 8px 12px; border-radius: 8px; font-size: 14px; outline: none; }
+.calc-result { grid-column: 1/-1; background: linear-gradient(135deg, rgba(0,212,170,0.1), rgba(79,142,247,0.1)); border: 1px solid var(--accent1); border-radius: 12px; padding: 1rem 1.25rem; text-align: center; }
+.calc-result .result-num { font-family: 'Bebas Neue', sans-serif; font-size: 2.5rem; color: var(--accent1); letter-spacing: 2px; }
+
+/* ── CONTRACT TYPES VISUAL ─── */
+.contract-flow { position: relative; }
+.contract-node {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 12px; padding: 1rem 1.25rem;
+  transition: all 0.25s; cursor: default;
+}
+.contract-node:hover { transform: scale(1.02); border-color: var(--accent2); }
+.contract-node .cn-type { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: 2px; text-transform: uppercase; }
+.contract-node .cn-name { font-family: 'Bebas Neue', sans-serif; font-size: 1.3rem; color: #fff; letter-spacing: 1px; margin: 4px 0; }
+.contract-node .cn-detail { font-size: 12px; color: #8896a8; }
+.contract-node .cn-icon { font-size: 1.8rem; margin-bottom: 6px; }
+
+/* ── MISC ─── */
+strong { color: var(--text); font-weight: 700; }
+em { color: var(--accent3); font-style: normal; font-weight: 600; }
+
+.footnote { font-size: 11px; color: var(--muted); font-family: 'JetBrains Mono', monospace; margin-top: 8px; }
+
+/* ── ACCORDION ─── */
+.accordion { border: 1px solid var(--border); border-radius: 12px; overflow: hidden; margin-bottom: 0.75rem; }
+.acc-header {
+  background: var(--card); padding: 14px 18px;
+  cursor: pointer; display: flex; justify-content: space-between; align-items: center;
+  font-weight: 700; font-size: 14px; transition: background 0.2s;
+  user-select: none;
+}
+.acc-header:hover { background: rgba(79,142,247,0.08); }
+.acc-header span { font-size: 18px; transition: transform 0.3s; }
+.acc-header.open span { transform: rotate(45deg); }
+.acc-body { max-height: 0; overflow: hidden; transition: max-height 0.4s ease, padding 0.3s; padding: 0 18px; }
+.acc-body.open { max-height: 1000px; padding: 14px 18px; }
+
+/* ── EASTER EGG ─── */
+#easter-trigger {
+  position: fixed;
+  bottom: -400px;
+  left: 50%; transform: translateX(-50%);
+  width: 260px; height: 260px;
+  opacity: 0.5;
+  cursor: pointer;
+  transition: bottom 0.7s cubic-bezier(0.34,1.56,0.64,1), opacity 0.4s;
+  z-index: 9998;
+  border-radius: 50%;
+  overflow: hidden;
+}
+#easter-trigger.visible { bottom: 30px; }
+#easter-trigger img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+#easter-trigger:hover { opacity: 0.85; transform: translateX(-50%) scale(1.08); }
+
+.chaos-overlay {
+  position: fixed; inset: 0; z-index: 99998;
+  background: radial-gradient(circle, #ff00cc, #3300ff, #00ffcc);
+  display: none; align-items: center; justify-content: center;
+  animation: chaosPulse 0.5s infinite alternate;
+  pointer-events: none;
+}
+.chaos-overlay.active { display: flex; pointer-events: all; }
+@keyframes chaosPulse {
+  from { filter: hue-rotate(0deg) saturate(2); }
+  to   { filter: hue-rotate(180deg) saturate(4); }
+}
+
+/* ── SCROLL INDICATOR ─── */
+.scroll-hint {
+  position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%);
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  color: var(--muted); font-size: 12px; animation: bounce 2s infinite;
+}
+.scroll-hint::after {
+  content: '↓'; font-size: 1.5rem; color: var(--accent1);
+}
+@keyframes bounce {
+  0%,100% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(8px); }
+}
+
+/* ── RESPONSIVE ─── */
+@media (max-width: 600px) {
+  h2.section-title { font-size: 2.5rem; }
+  .calc-grid { grid-template-columns: 1fr; }
+}
+
+/* ── GLOW ELEMENTS ─── */
+.glow-dot {
+  display: inline-block; width: 8px; height: 8px; border-radius: 50%;
+  animation: glowPulse 2s ease-in-out infinite;
+  margin-right: 8px; vertical-align: middle;
+}
+.glow-green { background: var(--accent1); box-shadow: 0 0 6px var(--accent1); }
+.glow-blue  { background: var(--accent2); box-shadow: 0 0 6px var(--accent2); }
+
+@keyframes glowPulse {
+  0%,100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.8); }
+}
+
+.sticky-nav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(10,14,26,0.85); backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  padding: 12px 2rem;
+  display: flex; gap: 12px; align-items: center; overflow-x: auto;
+}
+.sticky-nav a {
+  color: var(--muted); text-decoration: none; font-size: 12px;
+  font-family: 'JetBrains Mono', monospace; letter-spacing: 1px;
+  white-space: nowrap; transition: color 0.2s; padding: 4px 8px; border-radius: 6px;
+}
+.sticky-nav a:hover { color: var(--accent1); background: var(--glow1); }
+.sticky-nav .nav-logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.2rem; color: var(--accent1); margin-right: 8px; }
+</style>
+</head>
+<body>
+
+<div id="progress-bar"></div>
+
+<!-- HERO -->
+<section class="hero" id="top">
+  <div class="hero-grid"></div>
+  <span class="badge">FP INFORMÁTICA · 2024–2025</span>
+  <h1 class="title">FOL</h1>
+  <p class="subtitle">Formación y Orientación Laboral — Resumen Completo</p>
+  <div class="nav-pills">
+    <a href="#relaciones" class="pill">🔗 Relaciones Laborales</a>
+    <a href="#modalidades" class="pill">📄 Modalidades de Contrato</a>
+    <a href="#contratos-temp" class="pill">⏱ Temporales</a>
+    <a href="#formativos" class="pill">🎓 Formativos</a>
+    <a href="#periodo-prueba" class="pill">🧪 Período de Prueba</a>
+    <a href="#normas" class="pill">⚖️ Normativa</a>
+    <a href="#representacion" class="pill">👥 Representación</a>
+    <a href="#conflictos" class="pill">⚡ Conflictos</a>
+    <a href="#tribunales" class="pill">🏛️ Tribunales</a>
+    <a href="#ejercicios" class="pill">✏️ Ejercicios</a>
+  </div>
+  <div class="scroll-hint">scroll</div>
+</section>
+
+<!-- STICKY NAV -->
+<nav class="sticky-nav">
+  <span class="nav-logo">FOL</span>
+  <a href="#relaciones">Relaciones</a>
+  <a href="#modalidades">Contratos</a>
+  <a href="#contratos-temp">Temporales</a>
+  <a href="#formativos">Formativos</a>
+  <a href="#normas">Normativa</a>
+  <a href="#representacion">Representación</a>
+  <a href="#conflictos">Conflictos</a>
+  <a href="#tribunales">Tribunales</a>
+  <a href="#ejercicios">Ejercicios</a>
+</nav>
+
+<!-- ╔═══════════════════════════════╗
+     ║  1. RELACIONES LABORALES       ║
+     ╚═══════════════════════════════╝ -->
+<section id="relaciones">
+  <div class="container">
+    <span class="section-label">Unidad 1 — Derecho Laboral</span>
+    <h2 class="section-title">Las Relaciones Laborales</h2>
+
+    <div class="highlight">
+      La <strong>relación laboral</strong> sometida al Derecho Laboral surge únicamente cuando el trabajo reúne <em>todas</em> estas características simultáneamente: personal, voluntario, por cuenta ajena, retribuido y dependiente.
+    </div>
+
+    <!-- 5 características -->
+    <div class="grid-3" style="margin-top:1.5rem;">
+      <div class="card card-green">
+        <div style="font-size:2rem;margin-bottom:8px;">👤</div>
+        <h3>Personal</h3>
+        <p>La persona contratada <strong>debe desarrollar el trabajo personalmente</strong>. No puede delegarlo en otro.</p>
+        <div class="example-box"><p>Ana es programadora. Ella debe hacer el código, no puede mandar a su hermano.</p></div>
+      </div>
+      <div class="card card-blue">
+        <div style="font-size:2rem;margin-bottom:8px;">🙋</div>
+        <h3>Voluntario</h3>
+        <p>La persona decide ofrecer servicios <strong>libremente</strong> y también puede ponerles fin voluntariamente.</p>
+        <div class="example-box"><p>Carlos firma un contrato porque quiere, no porque lo obliguen.</p></div>
+      </div>
+      <div class="card card-yellow">
+        <div style="font-size:2rem;margin-bottom:8px;">🏭</div>
+        <h3>Por cuenta ajena</h3>
+        <p>El resultado del trabajo y los medios pertenecen a la empresa. El salario <strong>es independiente</strong> de beneficios o pérdidas.</p>
+        <div class="example-box"><p>Si la empresa pierde dinero, el empleado sigue cobrando su sueldo.</p></div>
+      </div>
+      <div class="card card-red">
+        <div style="font-size:2rem;margin-bottom:8px;">💰</div>
+        <h3>Retribuido</h3>
+        <p><strong>Siempre hay contraprestación económica</strong>. Si no hay salario, no existe relación laboral.</p>
+        <div class="example-box"><p>Ayudar gratis a un amigo a montar muebles NO es relación laboral.</p></div>
+      </div>
+      <div class="card card-purple">
+        <div style="font-size:2rem;margin-bottom:8px;">📋</div>
+        <h3>Dependiente</h3>
+        <p>La empresa organiza la actividad y decide <strong>cuándo, dónde y cómo</strong> realizarse.</p>
+        <div class="example-box"><p>El jefe decide el horario, el lugar y las tareas del empleado.</p></div>
+      </div>
+    </div>
+
+    <!-- Relaciones excluidas vs especiales -->
+    <div style="margin-top:3rem;">
+      <div class="grid-2">
+        <div>
+          <h3 style="font-family:'Bebas Neue',sans-serif;font-size:1.6rem;color:var(--accent4);letter-spacing:1px;margin-bottom:1rem;">🚫 Relaciones EXCLUIDAS</h3>
+          <p style="font-size:13px;color:var(--muted);margin-bottom:1rem;">Falta alguno de los requisitos de la relación laboral</p>
+          <div class="timeline">
+            <div class="tl-item"><div class="tl-dot" style="background:var(--accent4);"></div><h4>Autónomos</h4><p>Trabajadores por cuenta propia (son ellos quienes asumen el riesgo).</p></div>
+            <div class="tl-item"><div class="tl-dot" style="background:var(--accent4);"></div><h4>Funcionarios</h4><p>Policía, personal de justicia, sanitarios en centros públicos, profesores en IES.</p></div>
+            <div class="tl-item"><div class="tl-dot" style="background:var(--accent4);"></div><h4>Prestaciones personales obligatorias</h4><p>Vocal en mesa electoral o intervención en juicio con jurado popular.</p></div>
+            <div class="tl-item"><div class="tl-dot" style="background:var(--accent4);"></div><h4>Familiares hasta 2.º grado con convivencia</h4><p>Salvo que se demuestre la condición de asalariado.</p></div>
+            <div class="tl-item"><div class="tl-dot" style="background:var(--accent4);"></div><h4>Trabajos de amistad / buena vecindad</h4><p>Pequeños trabajos sin ánimo de lucro.</p></div>
+            <div class="tl-item"><div class="tl-dot" style="background:var(--accent4);"></div><h4>Consejeros sin actividad en la empresa</h4><p>Si no realizan ninguna actividad real.</p></div>
+          </div>
+        </div>
+        <div>
+          <h3 style="font-family:'Bebas Neue',sans-serif;font-size:1.6rem;color:var(--accent5);letter-spacing:1px;margin-bottom:1rem;">⭐ Relaciones ESPECIALES</h3>
+          <p style="font-size:13px;color:var(--muted);margin-bottom:1rem;">Requieren una regulación singular (ET, art. 2)</p>
+          <div class="timeline">
+            <div class="tl-item"><div class="tl-dot" style="background:var(--accent5);"></div><h4>Personal de alta dirección</h4><p>Directivos con funciones de dirección y gerencia de la empresa.</p></div>
+            <div class="tl-item"><div class="tl-dot" style="background:var(--accent5);"></div><h4>Servicio del hogar familiar</h4><p>Personas que prestan servicios en domicilios particulares.</p></div>
+            <div class="tl-item"><div class="tl-dot" style="background:var(--accent5);"></div><h4>Personas recluidas en instituciones penitenciarias</h4></div>
+            <div class="tl-item"><div class="tl-dot" style="background:var(--accent5);"></div><h4>Deportistas profesionales</h4></div>
+            <div class="tl-item"><div class="tl-dot" style="background:var(--accent5);"></div><h4>Artistas en espectáculos públicos</h4></div>
+            <div class="tl-item"><div class="tl-dot" style="background:var(--accent5);"></div><h4>Agentes comerciales</h4><p>Retribución basada en comisiones sobre las ventas.</p></div>
+            <div class="tl-item"><div class="tl-dot" style="background:var(--accent5);"></div><h4>Personas con discapacidad en CEE</h4><p>Centros Especiales de Empleo.</p></div>
+            <div class="tl-item"><div class="tl-dot" style="background:var(--accent5);"></div><h4>Personal médico interno residente (MIR)</h4></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<hr class="divider">
+
+<!-- ╔═══════════════════════════════╗
+     ║  2. NORMATIVA LABORAL          ║
+     ╚═══════════════════════════════╝ -->
+<section id="normas">
+  <div class="container">
+    <span class="section-label">Unidad 2 — Marco Legal</span>
+    <h2 class="section-title">La Normativa Laboral</h2>
+    <p style="color:var(--muted);max-width:680px;margin-bottom:2rem;">Las normas laborales se ordenan jerárquicamente: la norma inferior no puede contradecir a la superior. El <strong>principio de norma más favorable</strong> protege al trabajador.</p>
+
+    <div class="grid-2">
+      <div>
+        <table class="styled-table">
+          <thead><tr><th>Nivel</th><th>Norma</th></tr></thead>
+          <tbody>
+            <tr><td><span class="tag tag-blue">1º</span> Normas UE</td><td>Reglamentos, Directivas, Decisiones</td></tr>
+            <tr><td><span class="tag tag-green">2º</span> Constitución</td><td>Aprobada en 1978. Derechos fundamentales laborales.</td></tr>
+            <tr><td><span class="tag tag-yellow">3º</span> Normas OIT</td><td>Organismo internacional (de la ONU).</td></tr>
+            <tr><td><span class="tag tag-red">4º</span> Normas con rango de Ley</td><td>Leyes orgánicas, ordinarias, RDL, RD legislativo.</td></tr>
+            <tr><td><span class="tag tag-purple">5º</span> Reglamentos</td><td>Desarrollan las leyes, del Gobierno/Ministerios.</td></tr>
+            <tr><td><span class="tag tag-green">6º</span> Convenios colectivos</td><td>Acuerdo entre representantes de trabajadores y empresa.</td></tr>
+            <tr><td><span class="tag tag-blue">7º</span> Contrato de trabajo</td><td>Acuerdo entre trabajador y empresa.</td></tr>
+            <tr><td><span class="tag tag-yellow">8º</span> Costumbres locales</td><td>Solo si no hay norma aplicable.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div>
+        <div class="card card-purple" style="margin-bottom:1rem;">
+          <h3>📜 Leyes más importantes</h3>
+          <ul>
+            <li><strong>Estatuto de los Trabajadores (ET)</strong> — regula la relación laboral individual y colectiva.</li>
+            <li><strong>Ley de Prevención de Riesgos Laborales</strong> — derechos y obligaciones en materia de seguridad.</li>
+            <li><strong>Ley General de la Seguridad Social</strong> — regula las prestaciones.</li>
+            <li><strong>Ley Orgánica de Libertad Sindical</strong> — derecho fundamental de sindicación.</li>
+          </ul>
+        </div>
+        <div class="article-block">
+          <span class="art-num">CONSTITUCIÓN · Art. 28</span>
+          <p>Reconoce el derecho a la huelga y a la sindicación como derechos fundamentales de las personas trabajadoras.</p>
+        </div>
+        <div class="article-block">
+          <span class="art-num">CONSTITUCIÓN · Art. 35</span>
+          <p>El derecho al trabajo, a la libre elección de profesión u oficio, a la promoción a través del trabajo y a una remuneración suficiente.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<hr class="divider">
+
+<!-- ╔═══════════════════════════════╗
+     ║  3. MODALIDADES DE CONTRATO    ║
+     ╚═══════════════════════════════╝ -->
+<section id="modalidades">
+  <div class="container">
+    <span class="section-label">Unidad 3 — Contratos</span>
+    <h2 class="section-title">Modalidades de Contrato de Trabajo</h2>
+
+    <div class="highlight">
+      Las empresas disponen de varios tipos de contrato según sus necesidades. El <strong>ET</strong> establece las características y cada tipo tiene sus propias ventajas y desventajas.
+    </div>
+
+    <!-- MAPA DE CONTRATOS -->
+    <div style="margin:2rem 0; background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:2rem;">
+      <div style="text-align:center; margin-bottom:1.5rem;">
+        <span style="font-family:'Bebas Neue',sans-serif; font-size:1.5rem; color:var(--accent1); letter-spacing:2px;">ÁRBOL DE CONTRATOS</span>
+      </div>
+      <div class="grid-2">
+        <!-- INDEFINIDOS -->
+        <div>
+          <div style="background:rgba(0,212,170,0.1);border:1px solid var(--accent1);border-radius:12px;padding:1rem;margin-bottom:1rem;">
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;color:var(--accent1);letter-spacing:2px;margin-bottom:0.5rem;">♾️ CONTRATOS INDEFINIDOS</div>
+            <p style="font-size:12px;color:var(--muted);">No fijan una fecha de terminación de la relación laboral.</p>
+          </div>
+          <div class="grid-2" style="gap:0.75rem;">
+            <div class="contract-node">
+              <div class="cn-icon">🏢</div>
+              <div class="cn-type">tipo</div>
+              <div class="cn-name">Indefinido Ordinario</div>
+              <div class="cn-detail">Tiempo completo o parcial. Concertado por escrito o verbalmente.</div>
+            </div>
+            <div class="contract-node">
+              <div class="cn-icon">❄️🌞</div>
+              <div class="cn-type">tipo</div>
+              <div class="cn-name">Fijo Discontinuo</div>
+              <div class="cn-detail">Trabajos estacionales o de temporada con periodos de actividad intermitentes.</div>
+            </div>
+          </div>
+        </div>
+        <!-- TEMPORALES -->
+        <div>
+          <div style="background:rgba(247,201,72,0.1);border:1px solid var(--accent3);border-radius:12px;padding:1rem;margin-bottom:1rem;">
+            <div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;color:var(--accent3);letter-spacing:2px;margin-bottom:0.5rem;">⏱️ CONTRATOS TEMPORALES</div>
+            <p style="font-size:12px;color:var(--muted);">Duración determinada pactada en el propio contrato.</p>
+          </div>
+          <div class="grid-2" style="gap:0.75rem;">
+            <div class="contract-node">
+              <div class="cn-icon">📈</div>
+              <div class="cn-type">tipo</div>
+              <div class="cn-name">Circunstancias de la Producción</div>
+              <div class="cn-detail">Incremento ocasional o imprevisible de actividad. Máx. 6 meses (hasta 1 año por convenio).</div>
+            </div>
+            <div class="contract-node">
+              <div class="cn-icon">🔄</div>
+              <div class="cn-type">tipo</div>
+              <div class="cn-name">Sustitución</div>
+              <div class="cn-detail">Sustituir trabajador con reserva de puesto. Hasta reincorporación. Sin indemnización.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="grid-2" style="gap:0.75rem;margin-top:0.75rem;">
+        <!-- FORMATIVOS -->
+        <div style="background:rgba(79,142,247,0.1);border:1px solid var(--accent2);border-radius:12px;padding:1rem;">
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;color:var(--accent2);letter-spacing:2px;margin-bottom:0.5rem;">🎓 CONTRATOS FORMATIVOS</div>
+          <div class="grid-2" style="gap:0.5rem;margin-top:0.5rem;">
+            <div class="contract-node" style="padding:0.75rem;">
+              <div class="cn-type">formativo</div>
+              <div class="cn-name">Formación en Alternancia</div>
+              <div class="cn-detail">Alterna actividad laboral y formativa. Menores de 30 años. 3 meses–2 años.</div>
+            </div>
+            <div class="contract-node" style="padding:0.75rem;">
+              <div class="cn-type">formativo</div>
+              <div class="cn-name">Obtención Práctica Profesional</div>
+              <div class="cn-detail">Tras titulación (FP, Universidad). 6 meses–1 año. Período prueba: 1 mes.</div>
+            </div>
+          </div>
+        </div>
+        <!-- TIEMPO PARCIAL -->
+        <div style="background:rgba(192,132,252,0.1);border:1px solid var(--accent5);border-radius:12px;padding:1rem;">
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;color:var(--accent5);letter-spacing:2px;margin-bottom:0.5rem;">🕐 A TIEMPO PARCIAL</div>
+          <div class="grid-2" style="gap:0.5rem;margin-top:0.5rem;">
+            <div class="contract-node" style="padding:0.75rem;">
+              <div class="cn-type">parcial</div>
+              <div class="cn-name">A tiempo parcial</div>
+              <div class="cn-detail">Jornada inferior al tiempo completo. Prohibidas horas extras (solo fuerza mayor). Permiten horas complementarias.</div>
+            </div>
+            <div class="contract-node" style="padding:0.75rem;">
+              <div class="cn-type">parcial</div>
+              <div class="cn-name">Contrato de Relevo</div>
+              <div class="cn-detail">Contratar a otro para dar el relevo a quien se jubila parcialmente. Jubilado reduce jornada 25–50%.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- VENTAJAS/DESVENTAJAS -->
+    <div style="margin-top:2rem;">
+      <h3 style="font-family:'Bebas Neue',sans-serif;font-size:1.6rem;color:#fff;letter-spacing:1px;margin-bottom:1rem;">Ventajas y desventajas por tipo</h3>
+      <table class="styled-table">
+        <thead><tr><th>Tipo</th><th>Ventajas</th><th>Desventajas</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><span class="tag tag-green">Indefinido</span></td>
+            <td>Estabilidad en el empleo · Mayor protección ante el despido</td>
+            <td>—</td>
+          </tr>
+          <tr>
+            <td><span class="tag tag-yellow">Duración determinada</span></td>
+            <td>Adquisición de experiencia profesional · Ampliación de red de contactos</td>
+            <td>Contratación temporal · Inestabilidad socioeconómica</td>
+          </tr>
+          <tr>
+            <td><span class="tag tag-blue">Práctica profesional</span></td>
+            <td>Obtención de cualificación profesional · Posibilidades de incorporación a la empresa</td>
+            <td>Contratación temporal</td>
+          </tr>
+          <tr>
+            <td><span class="tag tag-purple">Alternancia</span></td>
+            <td>Obtención de calificación profesional · Contacto con el mundo laboral</td>
+            <td>Salario ajustado al tiempo real de trabajo</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+<hr class="divider">
+
+<!-- ╔═══════════════════════════════╗
+     ║  4. CONTRATO FIJO DISCONTINUO  ║
+     ╚═══════════════════════════════╝ -->
+<section id="fijo-disc">
+  <div class="container">
+    <span class="section-label">Unidad 3.B — Especial</span>
+    <h2 class="section-title">El Contrato Fijo Discontinuo</h2>
+    <p style="color:var(--muted);max-width:700px;margin-bottom:2rem;">Se celebra para la ejecución de trabajos fijos, pero discontinuos en el tiempo. Es un contrato <em>indefinido</em>.</p>
+
+    <div class="grid-2">
+      <div class="card card-green">
+        <h3>✅ Supuestos en que puede celebrarse</h3>
+        <ul>
+          <li>Trabajos de naturaleza estacional o actividades productivas de temporada.</li>
+          <li>Trabajos que suponen una prestación intermitente con periodos de ejecución ciertos, determinados o indeterminados.</li>
+          <li>Prestación de servicios a través de contratos de duración determinada para trabajos previsibles.</li>
+          <li>Para la cobertura con trabajadores de ETT de trabajos temporales de empresas usuarias.</li>
+        </ul>
+      </div>
+      <div>
+        <div class="card card-blue" style="margin-bottom:0.75rem;">
+          <h3>📝 Forma</h3>
+          <p>Deberá formalizarse <strong>necesariamente por escrito</strong>, reflejando la duración del periodo de actividad, la jornada y su distribución horaria.</p>
+        </div>
+        <div class="card card-yellow">
+          <h3>📞 Llamamiento</h3>
+          <p>Los convenios colectivos fijarán el orden de llamamiento. En caso de incumplimiento, el trabajador puede ejercer acciones legales.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card card-purple" style="margin-top:1rem;">
+      <h3>📅 Antigüedad</h3>
+      <p>Se calcula teniendo en cuenta <strong>toda la duración de la relación laboral</strong>, no solo el tiempo de prestación efectiva. Sin embargo, se excluye para el cálculo de indemnizaciones por despido los periodos no trabajados.</p>
+    </div>
+    <div class="example-box" style="margin-top:1rem;"><p>Una monitora de esquí tiene contrato fijo discontinuo: trabaja de noviembre a abril cada año, pero su contrato es indefinido. Cuando llega la temporada, la empresa la debe llamar.</p></div>
+  </div>
+</section>
+<hr class="divider">
+
+<!-- ╔═══════════════════════════════╗
+     ║  5. CONTRATOS TEMPORALES       ║
+     ╚═══════════════════════════════╝ -->
+<section id="contratos-temp">
+  <div class="container">
+    <span class="section-label">Unidad 3.C — Temporalidad</span>
+    <h2 class="section-title">Contratos de Duración Determinada</h2>
+    <p style="color:var(--muted);max-width:700px;margin-bottom:2rem;">Solo se pueden celebrar cuando concurra alguna de las causas previstas por ley. <strong>Límite de encadenamiento</strong>: protege contra el abuso.</p>
+
+    <div class="grid-2" style="margin-bottom:1.5rem;">
+      <div class="card card-yellow">
+        <h3>⚠️ Encadenamiento — Límite por persona</h3>
+        <ul>
+          <li>Contratada durante más de <strong>18 meses</strong> en un período de 24 meses para el mismo puesto en la misma empresa.</li>
+          <li>Que se hayan celebrado dos o más contratos por circunstancias de la producción directamente o a través de ETT.</li>
+        </ul>
+        <p style="margin-top:8px;color:var(--accent3);font-weight:700;">→ Se convierte en INDEFINIDO</p>
+      </div>
+      <div class="card card-red">
+        <h3>⚠️ Encadenamiento — Límite por puesto</h3>
+        <ul>
+          <li>Que el puesto de trabajo haya estado ocupado más de <strong>18 meses</strong> en un período de 24 meses mediante contratos por circunstancias de la producción (incluidos los de ETT).</li>
+        </ul>
+        <p style="margin-top:8px;color:var(--accent4);font-weight:700;">→ El siguiente contrato será INDEFINIDO</p>
+      </div>
+    </div>
+
+    <!-- Tabla detallada -->
+    <div class="accordion">
+      <div class="acc-header" onclick="toggleAcc(this)">📈 Contrato por circunstancias de la producción — detalles <span>+</span></div>
+      <div class="acc-body">
+        <table class="styled-table">
+          <thead><tr><th>Aspecto</th><th>Detalle</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Causas</strong></td><td>Incremento ocasional e imprevisible; oscilaciones de la plantilla (vacaciones anuales incluidas); incremento ocasional y previsible, con duración delimitada.</td></tr>
+            <tr><td><strong>Forma</strong></td><td>Por escrito, especificando la causa habilitante y su conexión con la duración prevista.</td></tr>
+            <tr><td><strong>Duración</strong></td><td>6 meses (ampliable a 1 año por convenio sectorial) para causas imprevisibles. 90 días/año natural para causas previsibles (no continuados).</td></tr>
+            <tr><td><strong>Indemnización</strong></td><td>12 días de salario por año de servicio (parte proporcional si es inferior a 1 año).</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="accordion">
+      <div class="acc-header" onclick="toggleAcc(this)">🔄 Contrato para sustitución de personas trabajadoras — detalles <span>+</span></div>
+      <div class="acc-body">
+        <table class="styled-table">
+          <thead><tr><th>Aspecto</th><th>Detalle</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Causas</strong></td><td>Sustituir a un trabajador con derecho a reserva de puesto; completar jornada reducida por otro trabajador; cubrir temporalmente un puesto durante selección/promoción.</td></tr>
+            <tr><td><strong>Duración</strong></td><td>Mientras dure el derecho a reserva de puesto. Para completar jornada reducida: mientras dure la reducción. En procesos de selección: máximo 3 meses.</td></tr>
+            <tr><td><strong>Forma</strong></td><td>Por escrito, especificando la causa de sustitución y el nombre de la persona sustituida.</td></tr>
+            <tr><td><strong>Indemnización</strong></td><td>No tiene derecho a indemnización a su finalización.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="example-box"><p>María está de baja por maternidad. La empresa contrata a Lucía con un contrato de sustitución hasta que María se reincorpore. Cuando esto ocurra, el contrato de Lucía finaliza sin indemnización.</p></div>
+  </div>
+</section>
+<hr class="divider">
+
+<!-- ╔═══════════════════════════════╗
+     ║  6. CONTRATOS FORMATIVOS       ║
+     ╚═══════════════════════════════╝ -->
+<section id="formativos">
+  <div class="container">
+    <span class="section-label">Unidad 3.D — Formación</span>
+    <h2 class="section-title">Los Contratos Formativos</h2>
+    <p style="color:var(--muted);max-width:680px;margin-bottom:2rem;">Tienen como finalidad fomentar la incorporación de personas jóvenes al mercado laboral combinando trabajo y formación.</p>
+
+    <div class="grid-2">
+      <!-- Alternancia -->
+      <div style="background:var(--surface);border:1px solid var(--accent2);border-radius:16px;padding:1.5rem;">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:1rem;">
+          <span style="font-size:1.8rem;">🏭🎓</span>
+          <h3 style="font-family:'Bebas Neue',sans-serif;font-size:1.5rem;color:var(--accent2);letter-spacing:1px;">Formación en Alternancia</h3>
+        </div>
+        <table class="styled-table">
+          <tbody>
+            <tr><td><strong>Finalidad</strong></td><td>Compatibilizar actividad laboral retribuida con procesos de formación (FP, Universitaria, etc.)</td></tr>
+            <tr><td><strong>Edad</strong></td><td>Menores de 30 años (sin límite para personas con discapacidad o riesgo de exclusión social)</td></tr>
+            <tr><td><strong>Duración</strong></td><td>3 meses — 2 años</td></tr>
+            <tr><td><strong>Jornada año 1</strong></td><td>Máx 65% trabajo / 35% formación</td></tr>
+            <tr><td><strong>Jornada año 2</strong></td><td>Máx 85% trabajo / 15% formación</td></tr>
+            <tr><td><strong>Salario</strong></td><td>≥ 60% (1er año) / ≥ 75% (2º año) del grupo profesional. No inferior al SMI.</td></tr>
+            <tr><td><strong>Período de prueba</strong></td><td>No existe</td></tr>
+            <tr><td><strong>Indemnización</strong></td><td>Ninguna al finalizar</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <!-- Práctica profesional -->
+      <div style="background:var(--surface);border:1px solid var(--accent1);border-radius:16px;padding:1.5rem;">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:1rem;">
+          <span style="font-size:1.8rem;">📜✅</span>
+          <h3 style="font-family:'Bebas Neue',sans-serif;font-size:1.5rem;color:var(--accent1);letter-spacing:1px;">Obtención Práctica Profesional</h3>
+        </div>
+        <table class="styled-table">
+          <tbody>
+            <tr><td><strong>Finalidad</strong></td><td>Obtener la práctica profesional adecuada al nivel de estudios.</td></tr>
+            <tr><td><strong>Requisito</strong></td><td>Poseer título universitario, FP de grado medio/superior, máster artístico/deportivo.</td></tr>
+            <tr><td><strong>Plazo</strong></td><td>Dentro de los 3 años siguientes a la obtención del título (5 años si discapacidad).</td></tr>
+            <tr><td><strong>Duración</strong></td><td>Mínimo 6 meses — máximo 1 año</td></tr>
+            <tr><td><strong>Período prueba</strong></td><td>Máximo 1 mes</td></tr>
+            <tr><td><strong>Jornada</strong></td><td>Completa o parcial. Sin horas extraordinarias (salvo fuerza mayor).</td></tr>
+            <tr><td><strong>Salario</strong></td><td>Fijado por el convenio colectivo.</td></tr>
+            <tr><td><strong>Indemnización</strong></td><td>Ninguna al finalizar</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="example-box" style="margin-top:1rem;"><p>Laura acaba de obtener su título de CFGS en Desarrollo de Aplicaciones Web. La empresa XYZ la contrata con un contrato de práctica profesional durante 1 año. No puede haber período de prueba superior a 1 mes. Laura debe ser contratada dentro de los 3 años siguientes a obtener el título.</p></div>
+  </div>
+</section>
+<hr class="divider">
+
+<!-- ╔═══════════════════════════════╗
+     ║  7. PERÍODO DE PRUEBA          ║
+     ╚═══════════════════════════════╝ -->
+<section id="periodo-prueba">
+  <div class="container">
+    <span class="section-label">Unidad 4 — Contrato</span>
+    <h2 class="section-title">El Período de Prueba</h2>
+    <div class="highlight">
+      Uno de los pactos que se puede incluir en el contrato. Debe pactarse <strong>por escrito</strong>. Si no se recoge, se entiende que <em>no existe</em>.
+    </div>
+
+    <div class="grid-2" style="margin-top:1.5rem;">
+      <div>
+        <h3 style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;color:#fff;letter-spacing:1px;margin-bottom:1rem;">⏰ Duración máxima</h3>
+        <table class="styled-table">
+          <thead><tr><th>Colectivo</th><th>Máximo</th></tr></thead>
+          <tbody>
+            <tr><td>Técnicos titulados</td><td><span class="tag tag-red">6 meses</span></td></tr>
+            <tr><td>Resto de trabajadores</td><td><span class="tag tag-yellow">2 meses</span></td></tr>
+            <tr><td>Empresas &lt; 25 trabajadores</td><td><span class="tag tag-yellow">3 meses</span> (no titulados)</td></tr>
+            <tr><td>Contratos temporales &lt; 6 meses</td><td><span class="tag tag-green">1 mes</span></td></tr>
+          </tbody>
+        </table>
+        <p class="footnote" style="margin-top:8px;">* El convenio colectivo puede modificar estos plazos, pero nunca superar los máximos legales.</p>
+      </div>
+      <div>
+        <div class="card card-blue" style="margin-bottom:1rem;">
+          <h3>⚖️ Derechos</h3>
+          <p>Durante el período de prueba el trabajador tiene los <strong>mismos derechos y obligaciones</strong> que el resto (alta en Seguridad Social, salario, etc.).</p>
+        </div>
+        <div class="card card-red" style="margin-bottom:1rem;">
+          <h3>🚪 Límites</h3>
+          <p>No puede pactarse período de prueba si el trabajador <strong>ya ha desempeñado las mismas funciones anteriormente</strong> en la empresa, cualquiera que haya sido la modalidad del contrato anterior.</p>
+        </div>
+        <div class="card card-yellow">
+          <h3>🔔 Preaviso</h3>
+          <p>No es necesario. Cualquiera de las partes puede dar por finalizado el contrato durante el período de prueba <strong>sin preaviso</strong> y sin que perciba indemnización.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="highlight" style="margin-top:1.5rem;">
+      <strong>⚠️ Interrupción del período de prueba:</strong> Las situaciones de incapacidad temporal, nacimiento, adopción, acogimiento, riesgo durante el embarazo, riesgo durante la lactancia y violencia de género <strong>interrumpen</strong> el cómputo del período de prueba, siempre que exista acuerdo entre ambas partes.
+    </div>
+    <div class="example-box"><p>Sergio es técnico titulado en FP de informática. Le ofrecen un contrato con 6 meses de período de prueba. Eso es legal. Pero si durante esos 6 meses cae enfermo 2 semanas, esas 2 semanas NO cuentan en el período de prueba (si hay acuerdo).</p></div>
+  </div>
+</section>
+<hr class="divider">
+
+<!-- ╔═══════════════════════════════╗
+     ║  8. CONTENIDO DEL CONTRATO     ║
+     ╚═══════════════════════════════╝ -->
+<section id="contenido-contrato">
+  <div class="container">
+    <span class="section-label">Unidad 4 — Formalización</span>
+    <h2 class="section-title">Contenido del Contrato de Trabajo</h2>
+    <p style="color:var(--muted);max-width:680px;margin-bottom:2rem;">El contrato debe recoger como mínimo las siguientes cláusulas. Las partes son: <strong>la persona trabajadora</strong> y <strong>el/la representante de la empresa</strong>.</p>
+
+    <div class="grid-3">
+      <div class="card card-green">
+        <div style="font-size:1.5rem;margin-bottom:6px;">1️⃣</div>
+        <h3>Denominación y grupo</h3>
+        <p>Identificación de las partes y grupo profesional / puesto de trabajo.</p>
+      </div>
+      <div class="card card-blue">
+        <div style="font-size:1.5rem;margin-bottom:6px;">2️⃣</div>
+        <h3>Lugar de trabajo</h3>
+        <p>Domicilio social de la empresa y centro de trabajo donde se van a prestar los servicios.</p>
+      </div>
+      <div class="card card-yellow">
+        <div style="font-size:1.5rem;margin-bottom:6px;">3️⃣</div>
+        <h3>Tiempo de trabajo</h3>
+        <p>Jornada, horario, turno y si es nocturno.</p>
+      </div>
+      <div class="card card-red">
+        <div style="font-size:1.5rem;margin-bottom:6px;">4️⃣</div>
+        <h3>Duración</h3>
+        <p>Fecha de comienzo de la relación laboral y período de prueba, si se pacta.</p>
+      </div>
+      <div class="card card-purple">
+        <div style="font-size:1.5rem;margin-bottom:6px;">5️⃣</div>
+        <h3>Retribución</h3>
+        <p>Salario base y complementos salariales. Salario bruto (antes de descuentos IRPF y SS).</p>
+      </div>
+      <div class="card card-green">
+        <div style="font-size:1.5rem;margin-bottom:6px;">6️⃣</div>
+        <h3>Vacaciones</h3>
+        <p>Duración de las vacaciones anuales (mínimo 30 días naturales).</p>
+      </div>
+      <div class="card card-blue">
+        <div style="font-size:1.5rem;margin-bottom:6px;">7️⃣</div>
+        <h3>Legislación aplicable</h3>
+        <p>Norma que regula el tipo de contrato y el convenio colectivo que ordena la relación laboral.</p>
+      </div>
+      <div class="card card-yellow">
+        <div style="font-size:1.5rem;margin-bottom:6px;">8️⃣</div>
+        <h3>Otras cláusulas</h3>
+        <p>Pueden incluirse cláusulas adicionales ajustadas a la ley. Si son ilegales, el trabajador no está obligado a cumplirlas.</p>
+      </div>
+    </div>
+  </div>
+</section>
+<hr class="divider">
+
+<!-- ╔═══════════════════════════════╗
+     ║  9. FALTAS Y SANCIONES         ║
+     ╚═══════════════════════════════╝ -->
+<section id="faltas">
+  <div class="container">
+    <span class="section-label">Unidad 5 — Disciplina</span>
+    <h2 class="section-title">Faltas y Sanciones</h2>
+
+    <div class="grid-3">
+      <div class="card card-yellow">
+        <div style="font-size:2rem;margin-bottom:8px;">🟡</div>
+        <h3>Faltas LEVES</h3>
+        <p>Plazo máximo para sancionar: <span style="color:var(--accent3);font-weight:700;">10 días</span></p>
+        <div class="example-box"><p>Un retraso puntual no justificado al trabajo.</p></div>
+      </div>
+      <div class="card card-red">
+        <div style="font-size:2rem;margin-bottom:8px;">🟠</div>
+        <h3>Faltas GRAVES</h3>
+        <p>Plazo máximo para sancionar: <span style="color:var(--accent4);font-weight:700;">20 días</span></p>
+        <div class="example-box"><p>Faltas de asistencia repetidas sin justificar o indisciplina.</p></div>
+      </div>
+      <div class="card card-purple">
+        <div style="font-size:2rem;margin-bottom:8px;">🔴</div>
+        <h3>Faltas MUY GRAVES</h3>
+        <p>Plazo máximo para sancionar: <span style="color:var(--accent5);font-weight:700;">60 días</span></p>
+        <div class="example-box"><p>Robo, acoso laboral, transgresión de la buena fe contractual.</p></div>
+      </div>
+    </div>
+    <div class="highlight" style="margin-top:1.5rem;">
+      El trabajador puede impugnar las sanciones ante los <strong>Juzgados de lo Social</strong>. Las faltas prescriben: leves en 10 días, graves en 20 días y muy graves en 60 días desde que la empresa tuvo conocimiento de ellas.
+    </div>
+  </div>
+</section>
+<hr class="divider">
+
+<!-- ╔═══════════════════════════════╗
+     ║  10. REPRESENTACIÓN TRABAJADORES║
+     ╚═══════════════════════════════╝ -->
+<section id="representacion">
+  <div class="container">
+    <span class="section-label">Unidad 6 — Participación</span>
+    <h2 class="section-title">Representación de los Trabajadores</h2>
+
+    <div class="grid-2" style="margin-bottom:2rem;">
+      <div>
+        <div style="background:var(--surface);border:1px solid var(--accent1);border-radius:14px;padding:1.5rem;">
+          <h3 style="font-family:'Bebas Neue',sans-serif;font-size:1.5rem;color:var(--accent1);letter-spacing:1px;margin-bottom:1rem;">👤 Delegados/as de Personal</h3>
+          <table class="styled-table">
+            <thead><tr><th>Nº trabajadores</th><th>Delegados</th></tr></thead>
+            <tbody>
+              <tr><td>6 a 10</td><td>1 (opcional)</td></tr>
+              <tr><td>11 a 30</td><td>1</td></tr>
+              <tr><td>31 a 49</td><td>3</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div>
+        <div style="background:var(--surface);border:1px solid var(--accent2);border-radius:14px;padding:1.5rem;">
+          <h3 style="font-family:'Bebas Neue',sans-serif;font-size:1.5rem;color:var(--accent2);letter-spacing:1px;margin-bottom:1rem;">🏛️ Comité de Empresa</h3>
+          <table class="styled-table">
+            <thead><tr><th>Nº trabajadores</th><th>Integrantes</th></tr></thead>
+            <tbody>
+              <tr><td>50 a 100</td><td>5</td></tr>
+              <tr><td>101 a 250</td><td>9</td></tr>
+              <tr><td>251 a 500</td><td>13</td></tr>
+              <tr><td>501 a 750</td><td>17</td></tr>
+              <tr><td>751 a 1000</td><td>21</td></tr>
+              <tr><td>Más de 1001</td><td>2 por cada 1000 (máx. 75)</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="card card-purple">
+      <h3>🔊 Sindicatos</h3>
+      <p>Los sindicatos son organizaciones formadas por personas trabajadoras para la <strong>defensa y promoción de sus intereses económicos y laborales</strong>. El derecho a la sindicación está reconocido como derecho fundamental en la Constitución. Tienen derecho a la negociación colectiva, a la huelga y a participar en la resolución de conflictos.</p>
+    </div>
+  </div>
+</section>
+<hr class="divider">
+
+<!-- ╔═══════════════════════════════╗
+     ║  11. CONFLICTOS LABORALES      ║
+     ╚═══════════════════════════════╝ -->
+<section id="conflictos">
+  <div class="container">
+    <span class="section-label">Unidad 7 — Conflictos</span>
+    <h2 class="section-title">Conflictos Laborales</h2>
+
+    <div class="grid-2" style="margin-bottom:2rem;">
+      <!-- HUELGA -->
+      <div style="background:var(--surface);border:1px solid var(--accent4);border-radius:16px;padding:1.5rem;">
+        <h3 style="font-family:'Bebas Neue',sans-serif;font-size:1.5rem;color:var(--accent4);letter-spacing:1px;margin-bottom:1rem;">✊ La Huelga</h3>
+        <div class="article-block">
+          <span class="art-num">DEFINICIÓN</span>
+          <p>Suspensión colectiva y pactada de la prestación de trabajo, por iniciativa de las personas trabajadoras, a través del procedimiento legalmente establecido.</p>
+        </div>
+
+        <h4 style="color:#fff;margin:1rem 0 0.5rem;">Huelgas legales vs ilegales</h4>
+        <table class="styled-table">
+          <thead><tr><th>Tipo</th><th>Descripción</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><span class="tag tag-green">LEGAL</span></td>
+              <td>Cumplen todos los requisitos legales de convocatoria y ejercicio.</td>
+            </tr>
+            <tr>
+              <td><span class="tag tag-red">ILEGAL — Políticas</span></td>
+              <td>Por motivos políticos o cualquier finalidad ajena al interés profesional.</td>
+            </tr>
+            <tr>
+              <td><span class="tag tag-red">ILEGAL — Solidaridad</span></td>
+              <td>Afectan al interés profesional de quienes las promueven o sostienen.</td></tr>
+            <tr>
+              <td><span class="tag tag-red">ILEGAL — Novatorias</span></td>
+              <td>Pretenden modificar lo pactado en un convenio vigente.</td>
+            </tr>
+            <tr>
+              <td><span class="tag tag-red">ILEGAL — Sin procedimiento</span></td>
+              <td>No siguen el procedimiento legal para su declaración.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h4 style="color:#fff;margin:1rem 0 0.5rem;">📋 Procedimiento (3 pasos)</h4>
+        <div class="timeline">
+          <div class="tl-item"><div class="tl-dot" style="background:var(--accent4)"></div><h4>1. Declaración</h4><p>Por delegados, comité de empresa o sindicatos (mayoría absoluta de trabajadores).</p></div>
+          <div class="tl-item"><div class="tl-dot" style="background:var(--accent3)"></div><h4>2. Comunicación</h4><p>Notificar a empresa y autoridad laboral al menos <strong>5 días antes</strong> (10 días para servicios esenciales).</p></div>
+          <div class="tl-item"><div class="tl-dot" style="background:var(--accent1)"></div><h4>3. Comité de huelga</h4><p>Negocia para poner fin a la huelga. Durante la huelga, las partes deben negociar de buena fe.</p></div>
+        </div>
+      </div>
+
+      <!-- CIERRE PATRONAL -->
+      <div>
+        <div style="background:var(--surface);border:1px solid var(--accent5);border-radius:16px;padding:1.5rem;margin-bottom:1rem;">
+          <h3 style="font-family:'Bebas Neue',sans-serif;font-size:1.5rem;color:var(--accent5);letter-spacing:1px;margin-bottom:1rem;">🔒 Cierre Patronal</h3>
+          <p style="font-size:14px;color:#bcc7d9;">La empresa puede cerrar temporalmente el centro de trabajo ante notorio peligro de violencia o daños graves para las personas o los bienes. Solo es defensivo, no ofensivo.</p>
+          <div class="example-box"><p>Si durante una huelga hay daños materiales graves, la empresa puede declarar el cierre patronal.</p></div>
+        </div>
+
+        <div style="background:var(--surface);border:1px solid var(--accent1);border-radius:16px;padding:1.5rem;">
+          <h3 style="font-family:'Bebas Neue',sans-serif;font-size:1.5rem;color:var(--accent1);letter-spacing:1px;margin-bottom:1rem;">🤝 Solución de Conflictos</h3>
+          <div class="timeline">
+            <div class="tl-item"><div class="tl-dot"></div><h4>Mediación</h4><p>Un tercero ayuda a las partes a llegar a un acuerdo, pero no impone.</p></div>
+            <div class="tl-item"><div class="tl-dot"></div><h4>Arbitraje</h4><p>Un árbitro resuelve el conflicto y su decisión es vinculante.</p></div>
+            <div class="tl-item"><div class="tl-dot"></div><h4>Conciliación (SMAC)</h4><p>Servicio de Mediación, Arbitraje y Conciliación. Previo al proceso judicial, obligatorio.</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<hr class="divider">
+
+<!-- ╔═══════════════════════════════╗
+     ║  12. TRIBUNALES LABORALES      ║
+     ╚═══════════════════════════════╝ -->
+<section id="tribunales">
+  <div class="container">
+    <span class="section-label">Unidad 8 — Jurisdicción</span>
+    <h2 class="section-title">Los Tribunales Laborales</h2>
+    <p style="color:var(--muted);max-width:680px;margin-bottom:2rem;">Los tribunales laborales resuelven conflictos laborales y relacionados con la Seguridad Social, una vez agotada la vía administrativa (SMAC). Se ordenan jerárquicamente de menor a mayor.</p>
+
+    <div class="timeline" style="max-width:700px;">
+      <div class="tl-item">
+        <div class="tl-dot" style="background:var(--accent5);width:16px;height:16px;left:-2.3rem;top:4px;"></div>
+        <div class="card card-purple">
+          <h3>🏛️ Juzgados de lo Social</h3>
+          <p>Resuelven conflictos de trabajo individuales y colectivos del ámbito provincial. <em>Primera instancia.</em></p>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot" style="background:var(--accent2);width:16px;height:16px;left:-2.3rem;top:4px;"></div>
+        <div class="card card-blue">
+          <h3>⚖️ Tribunales Superiores de Justicia de las CC.AA.</h3>
+          <p>Resuelven los recursos de suplicación contra las resoluciones de los Juzgados de lo Social.</p>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot" style="background:var(--accent1);width:16px;height:16px;left:-2.3rem;top:4px;"></div>
+        <div class="card card-green">
+          <h3>🏢 Audiencia Nacional</h3>
+          <p>Resuelve procesos en materia sindical y colectiva cuyo ámbito excede de una comunidad autónoma.</p>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot" style="background:var(--accent3);width:16px;height:16px;left:-2.3rem;top:4px;"></div>
+        <div class="card card-yellow">
+          <h3>🔝 Tribunal Supremo</h3>
+          <p>Usa los recursos de casación contra las sentencias de los TSJ de las CC.AA. y la Sala de lo Social de la Audiencia Nacional. <em>Doctrina unificadora.</em></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="highlight" style="margin-top:1.5rem;">
+      <strong>Antes de acudir a los Juzgados</strong> es obligatorio pasar por el <strong>SMAC</strong> (Servicio de Mediación, Arbitraje y Conciliación). Si no hay acuerdo, entonces se puede interponer la demanda judicial.
+    </div>
+  </div>
+</section>
+<hr class="divider">
+
+<!-- ╔═══════════════════════════════╗
+     ║  CALCULADORA SALARIAL           ║
+     ╚═══════════════════════════════╝ -->
+<section id="calculadora">
+  <div class="container">
+    <span class="section-label">Herramienta</span>
+    <h2 class="section-title">Calculadora Salarial</h2>
+    <p style="color:var(--muted);margin-bottom:1.5rem;">Estima tu salario neto aproximado a partir del bruto anual.</p>
+
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:2rem;max-width:600px;">
+      <div class="calc-grid">
+        <div class="calc-row">
+          <label>SALARIO BRUTO ANUAL (€)</label>
+          <input type="number" id="salarioBruto" placeholder="25000" value="25000" oninput="calcSalario()">
+        </div>
+        <div class="calc-row">
+          <label>TIPO IRPF ESTIMADO (%)</label>
+          <input type="number" id="irpf" placeholder="15" value="15" oninput="calcSalario()">
+        </div>
+        <div class="calc-row">
+          <label>% SS TRABAJADOR (6,35%)</label>
+          <input type="number" id="ss" placeholder="6.35" value="6.35" oninput="calcSalario()">
+        </div>
+        <div class="calc-row">
+          <label>Nº PAGAS (12 o 14)</label>
+          <input type="number" id="pagas" placeholder="14" value="14" oninput="calcSalario()">
+        </div>
+        <div class="calc-result" id="calcOutput">
+          <div style="font-size:12px;color:var(--muted);font-family:'JetBrains Mono',monospace;letter-spacing:2px;margin-bottom:4px;">NETO ANUAL ESTIMADO</div>
+          <div class="result-num" id="netoAnual">—</div>
+          <div style="font-size:12px;color:var(--muted);margin-top:6px;" id="netoPaga">por paga</div>
+        </div>
+      </div>
+      <p class="footnote" style="margin-top:1rem;">⚠️ Cálculo orientativo. El IRPF real depende de tus circunstancias personales y deducciones. Consulta siempre con un asesor fiscal.</p>
+    </div>
+  </div>
+</section>
+<hr class="divider">
+
+<!-- ╔═══════════════════════════════╗
+     ║  REPASO RÁPIDO — FLIPCARDS     ║
+     ╚═══════════════════════════════╝ -->
+<section id="flashcards">
+  <div class="container">
+    <span class="section-label">Repaso</span>
+    <h2 class="section-title">Tarjetas de Repaso</h2>
+    <p style="color:var(--muted);margin-bottom:1.5rem;">Pasa el ratón sobre cada tarjeta o tócala para ver la respuesta.</p>
+    <div class="flipcard-grid" id="flashcardGrid"></div>
+  </div>
+</section>
+<hr class="divider">
+
+<!-- ╔═══════════════════════════════╗
+     ║  EJERCICIOS                    ║
+     ╚═══════════════════════════════╝ -->
+<section id="ejercicios">
+  <div class="container">
+    <span class="section-label">Práctica</span>
+    <h2 class="section-title">Ejercicios para Practicar</h2>
+
+    <div class="exercise-zone">
+      <h3>✏️ Ejercicios Escritos y Prácticos</h3>
+
+      <!-- EJERCICIO 1: Caso práctico relación laboral -->
+      <div class="exercise">
+        <label>🔍 Ejercicio 1 — Analiza estos casos y determina si existe relación laboral</label>
+        <p class="ex-prompt">Lee cada situación y escribe si es <strong>relación laboral</strong>, <strong>excluida</strong> o <strong>especial</strong>, y explica el porqué de cada una.</p>
+        <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:12px;">
+          <div class="highlight">a) Elena, profesora en un instituto público, imparte clases de matemáticas de 8:00 a 15:00.</div>
+          <div class="highlight">b) Marcos trabaja como comercial para una empresa y cobra comisiones por ventas que realiza con libertad de horario.</div>
+          <div class="highlight">c) Sofía ayuda a su vecina mayor a limpiar la casa los sábados sin cobrar nada.</div>
+          <div class="highlight">d) David, médico MIR en su primer año de residencia en un hospital público.</div>
+        </div>
+        <textarea class="ex-input" rows="5" id="ej1" placeholder="Escribe aquí tu análisis de cada caso..."></textarea>
+        <button class="btn btn-primary" style="margin-top:8px;" onclick="checkEj1()">Verificar respuesta</button>
+        <div class="ex-feedback" id="fb1"></div>
+      </div>
+
+      <!-- EJERCICIO 2: ORDENAR NORMATIVA -->
+      <div class="exercise">
+        <label>🔢 Ejercicio 2 — Ordena la jerarquía normativa</label>
+        <p class="ex-prompt">Arrastra las normas al orden correcto (de mayor a menor rango). Colócalas en los cuadros del 1 al 6.</p>
+        <div class="drag-zone" id="dragItems">
+          <div class="drag-item" draggable="true" data-val="Convenio colectivo">Convenio colectivo</div>
+          <div class="drag-item" draggable="true" data-val="Constitución">Constitución</div>
+          <div class="drag-item" draggable="true" data-val="Reglamento">Reglamento</div>
+          <div class="drag-item" draggable="true" data-val="Ley orgánica">Ley orgánica</div>
+          <div class="drag-item" draggable="true" data-val="Norma UE">Norma UE</div>
+          <div class="drag-item" draggable="true" data-val="Contrato de trabajo">Contrato de trabajo</div>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:8px;margin:12px 0;" id="dropZones">
+          <div class="drop-slot" data-pos="1">1º ···</div>
+          <div class="drop-slot" data-pos="2">2º ···</div>
+          <div class="drop-slot" data-pos="3">3º ···</div>
+          <div class="drop-slot" data-pos="4">4º ···</div>
+          <div class="drop-slot" data-pos="5">5º ···</div>
+          <div class="drop-slot" data-pos="6">6º ···</div>
+        </div>
+        <button class="btn btn-primary" onclick="checkDrag()">Comprobar orden</button>
+        <button class="btn btn-secondary" style="margin-left:8px;" onclick="resetDrag()">Reiniciar</button>
+        <div class="ex-feedback" id="fb2"></div>
+      </div>
+
+      <!-- EJERCICIO 3: EMPAREJAMIENTO CONTRATOS -->
+      <div class="exercise">
+        <label>🔗 Ejercicio 3 — Empareja el tipo de contrato con su característica</label>
+        <div id="matchingExercise"></div>
+        <button class="btn btn-primary" style="margin-top:12px;" onclick="checkMatching()">Comprobar emparejamiento</button>
+        <div class="ex-feedback" id="fb3"></div>
+      </div>
+
+      <!-- EJERCICIO 4: ESCENARIO -->
+      <div class="exercise">
+        <label>🎭 Ejercicio 4 — Caso práctico: ¿Qué tipo de contrato corresponde?</label>
+        <div id="scenarioContainer"></div>
+      </div>
+
+      <!-- EJERCICIO 5: REFLEXIÓN ESCRITA -->
+      <div class="exercise">
+        <label>✍️ Ejercicio 5 — Reflexión escrita (respuesta libre)</label>
+        <p class="ex-prompt">Imagina que eres asesor laboral. Una empresa de informática quiere contratar a un recién titulado de FP en DAW durante 8 meses para un proyecto específico. Explica qué tipo de contrato es el más adecuado, su duración legal, retribución mínima y si existe período de prueba.</p>
+        <textarea class="ex-input" rows="7" id="ej5" placeholder="Desarrolla tu respuesta aquí..."></textarea>
+        <button class="btn btn-primary" style="margin-top:8px;" onclick="checkEj5()">Ver orientación</button>
+        <div class="ex-feedback" id="fb5"></div>
+      </div>
+
+      <!-- EJERCICIO 6: CÁLCULO DELEGADOS -->
+      <div class="exercise">
+        <label>🔢 Ejercicio 6 — Calcula la representación</label>
+        <p class="ex-prompt">Una empresa de informática tiene <strong>320 trabajadores</strong>. ¿Necesita delegados de personal o comité de empresa? ¿Cuántos representantes corresponden?</p>
+        <textarea class="ex-input" rows="4" id="ej6" placeholder="Escribe tu cálculo y respuesta..."></textarea>
+        <button class="btn btn-primary" style="margin-top:8px;" onclick="checkEj6()">Comprobar</button>
+        <div class="ex-feedback" id="fb6"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ╔═══════════════════════════════════╗
+     ║  EXTRA: SALARIO Y NÓMINA           ║
+     ╚═══════════════════════════════════╝ -->
+<section id="salario">
+  <div class="container">
+    <span class="section-label">Unidad Extra — Retribución</span>
+    <h2 class="section-title">El Salario y la Nómina</h2>
+    <p style="color:var(--muted);max-width:720px;margin-bottom:2rem;">El salario es la totalidad de las percepciones económicas que recibe el trabajador por la prestación profesional de sus servicios laborales. Se divide en <em>salario base</em> y <em>complementos salariales</em>.</p>
+
+    <div class="grid-2" style="margin-bottom:1.5rem;">
+      <div class="card card-green">
+        <h3>💵 Salario Base</h3>
+        <p>La parte fija del salario, fijada por unidad de tiempo (hora, día, mes) o de obra. Es la retribución mínima garantizada según el convenio colectivo o el contrato, sin incluir los complementos.</p>
+        <div class="example-box"><p>Un técnico en informática cobra 1.400€/mes de salario base según el convenio del sector de consultoría.</p></div>
+      </div>
+      <div class="card card-blue">
+        <h3>➕ Complementos Salariales</h3>
+        <ul>
+          <li><strong>Personales:</strong> antigüedad, idiomas, conocimientos especiales.</li>
+          <li><strong>Por el trabajo:</strong> nocturnidad, toxicidad, peligrosidad, turnicidad.</li>
+          <li><strong>Por calidad/cantidad:</strong> comisiones, primas de productividad.</li>
+          <li><strong>De vencimiento periódico:</strong> pagas extraordinarias (mínimo 2 al año).</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="grid-3" style="margin-bottom:1.5rem;">
+      <div class="card card-yellow">
+        <h3>📋 SMI — Salario Mínimo Interprofesional</h3>
+        <p>Fijado anualmente por el Gobierno mediante Real Decreto. Ningún trabajador puede cobrar por debajo de esta cantidad. Se aplica a todos los sectores.</p>
+      </div>
+      <div class="card card-red">
+        <h3>🏖️ Pagas Extraordinarias</h3>
+        <p>Mínimo <strong>2 pagas extra</strong> al año (normalmente en verano y Navidad). Pueden prorratearse mensualmente si así lo establece el convenio o el contrato.</p>
+      </div>
+      <div class="card card-purple">
+        <h3>🧾 IRPF y Seguridad Social</h3>
+        <p>Del salario bruto se descuentan: la <strong>cotización a la SS</strong> (aprox. 6,35%) y el <strong>IRPF</strong> (variable según ingresos y circunstancias personales). Lo que queda es el salario neto.</p>
+      </div>
+    </div>
+
+    <div class="highlight">
+      <strong>Estructura de la nómina:</strong> La nómina tiene dos grandes bloques. En el <strong>haber</strong> se recogen todas las percepciones (salario base + complementos + horas extra). En el <strong>debe</strong> se recogen las deducciones (SS a cargo del trabajador + IRPF + otras). El resultado es el <em>líquido a percibir</em> (salario neto).
+    </div>
+    <div class="example-box"><p>Bruto mensual: 2.000€ → SS trabajador (6,35%): 127€ → IRPF (15%): 300€ → Neto: 1.573€. La empresa además paga su parte de SS (aprox. 30%), que no se ve en la nómina del empleado pero sí en el coste total.</p></div>
+  </div>
+</section>
+<hr class="divider">
+
+<!-- ╔═══════════════════════════════════╗
+     ║  EXTRA: JORNADA LABORAL            ║
+     ╚═══════════════════════════════════╝ -->
+<section id="jornada">
+  <div class="container">
+    <span class="section-label">Unidad Extra — Tiempo de Trabajo</span>
+    <h2 class="section-title">La Jornada Laboral y el Horario</h2>
+    <p style="color:var(--muted);max-width:720px;margin-bottom:2rem;">El ET establece los límites máximos de la jornada laboral. Los convenios colectivos y los contratos individuales pueden mejorar estas condiciones, pero nunca empeorarlas.</p>
+
+    <div class="grid-3" style="margin-bottom:1.5rem;">
+      <div class="card card-green">
+        <div style="font-size:2rem;margin-bottom:8px;">⏰</div>
+        <h3>Jornada Máxima</h3>
+        <p><strong>40 horas semanales</strong> de trabajo efectivo de promedio en cómputo anual. Es el máximo legal; el convenio puede reducirla.</p>
+      </div>
+      <div class="card card-blue">
+        <div style="font-size:2rem;margin-bottom:8px;">🌙</div>
+        <h3>Trabajo Nocturno</h3>
+        <p>El realizado entre las <strong>22:00 y las 06:00 horas</strong>. Los trabajadores nocturnos no pueden superar 8 horas/día de promedio en un período de 15 días.</p>
+      </div>
+      <div class="card card-yellow">
+        <div style="font-size:2rem;margin-bottom:8px;">🔄</div>
+        <h3>Trabajo a Turnos</h3>
+        <p>Sistema de organización del trabajo en equipo en que los trabajadores ocupan sucesivamente los mismos puestos. Implica frecuentemente trabajo nocturno y en fin de semana.</p>
+      </div>
+      <div class="card card-red">
+        <div style="font-size:2rem;margin-bottom:8px;">📊</div>
+        <h3>Horas Extraordinarias</h3>
+        <p>Las que superan la jornada ordinaria pactada. Máximo <strong>80 horas extras al año</strong>. Pueden compensarse con descanso o retribuirse económicamente (nunca inferior al valor de la hora ordinaria).</p>
+      </div>
+      <div class="card card-purple">
+        <div style="font-size:2rem;margin-bottom:8px;">☕</div>
+        <h3>Descansos</h3>
+        <p>Mínimo <strong>15 min</strong> si la jornada es continua y supera 6 horas. Descanso semanal: 1,5 días (normalmente sábado tarde y domingo). Entre jornadas: mínimo <strong>12 horas</strong>.</p>
+      </div>
+      <div class="card card-green">
+        <div style="font-size:2rem;margin-bottom:8px;">📅</div>
+        <h3>Vacaciones</h3>
+        <p>Mínimo <strong>30 días naturales</strong> al año (equivalente a 22 días laborables). No pueden compensarse económicamente, salvo al extinguir el contrato. El período se fija de mutuo acuerdo.</p>
+      </div>
+    </div>
+
+    <div class="accordion">
+      <div class="acc-header" onclick="toggleAcc(this)">📋 Permisos retribuidos obligatorios <span>+</span></div>
+      <div class="acc-body">
+        <table class="styled-table">
+          <thead><tr><th>Motivo</th><th>Días</th></tr></thead>
+          <tbody>
+            <tr><td>Matrimonio</td><td>15 días naturales</td></tr>
+            <tr><td>Nacimiento de hijo / adopción</td><td>16 semanas (permiso de nacimiento)</td></tr>
+            <tr><td>Fallecimiento de familiar (1er grado)</td><td>3 días (5 si hay desplazamiento)</td></tr>
+            <tr><td>Enfermedad grave de familiar (1er grado)</td><td>3 días (5 si hay desplazamiento)</td></tr>
+            <tr><td>Traslado de domicilio</td><td>1 día</td></tr>
+            <tr><td>Deber inexcusable público</td><td>El tiempo necesario</td></tr>
+            <tr><td>Exámenes prenatales / técnicas de parto</td><td>El tiempo necesario</td></tr>
+          </tbody>
+        </table>
+        <div class="example-box"><p>Si un trabajador va a casarse el 15 de julio, tiene derecho a 15 días naturales de permiso retribuido (no se descuentan del salario ni de las vacaciones).</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+<hr class="divider">
+
+<!-- ╔═══════════════════════════════════╗
+     ║  EXTRA: EXTINCIÓN DEL CONTRATO     ║
+     ╚═══════════════════════════════════╝ -->
+<section id="extincion">
+  <div class="container">
+    <span class="section-label">Unidad Extra — Fin del Contrato</span>
+    <h2 class="section-title">Extinción del Contrato de Trabajo</h2>
+    <p style="color:var(--muted);max-width:720px;margin-bottom:2rem;">La extinción supone la <strong>finalización definitiva</strong> de la relación laboral. Existen múltiples causas, cada una con consecuencias económicas distintas para el trabajador.</p>
+
+    <div class="grid-2" style="margin-bottom:1.5rem;">
+      <div>
+        <h3 style="font-family:'Bebas Neue',sans-serif;font-size:1.5rem;color:var(--accent1);letter-spacing:1px;margin-bottom:1rem;">📤 Por voluntad del trabajador</h3>
+        <div class="timeline">
+          <div class="tl-item"><div class="tl-dot" style="background:var(--accent1)"></div>
+            <h4>Dimisión voluntaria</h4>
+            <p>El trabajador decide marcharse libremente. <strong>No tiene derecho a indemnización</strong> ni a prestación por desempleo.</p>
+          </div>
+          <div class="tl-item"><div class="tl-dot" style="background:var(--accent1)"></div>
+            <h4>Abandono</h4>
+            <p>Se va sin respetar el preaviso. La empresa puede exigir daños y perjuicios por incumplimiento.</p>
+          </div>
+          <div class="tl-item"><div class="tl-dot" style="background:var(--accent1)"></div>
+            <h4>Despido indirecto (resolución causal)</h4>
+            <p>El trabajador solicita la extinción por incumplimiento grave de la empresa. Tiene derecho a indemnización como si fuera despido improcedente: <strong>33 días/año</strong> (máx. 24 mensualidades).</p>
+          </div>
+        </div>
+      </div>
+      <div>
+        <h3 style="font-family:'Bebas Neue',sans-serif;font-size:1.5rem;color:var(--accent4);letter-spacing:1px;margin-bottom:1rem;">📥 Por voluntad del empresario (despido)</h3>
+        <div class="timeline">
+          <div class="tl-item"><div class="tl-dot" style="background:var(--accent4)"></div>
+            <h4>Despido disciplinario</h4>
+            <p>Por incumplimiento grave y culpable del trabajador. Si es <strong>procedente</strong>: sin indemnización. Si es <strong>improcedente</strong>: 33 días/año (máx. 24 meses).</p>
+          </div>
+          <div class="tl-item"><div class="tl-dot" style="background:var(--accent4)"></div>
+            <h4>Despido objetivo</h4>
+            <p>Por causas económicas, técnicas, organizativas o de producción (ETOP), o por ineptitud del trabajador. Indemnización: <strong>20 días/año</strong> (máx. 12 mensualidades). Preaviso de 15 días.</p>
+          </div>
+          <div class="tl-item"><div class="tl-dot" style="background:var(--accent4)"></div>
+            <h4>ERE — Despido colectivo</h4>
+            <p>Afecta a un número mínimo de trabajadores (en 90 días: 10 en empresa &lt;100; 10% en empresa 100–300; 30 en empresa &gt;300). Requiere autorización administrativa. Indemnización: <strong>20 días/año</strong>.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <table class="styled-table">
+      <thead><tr><th>Tipo de despido</th><th>Indemnización</th><th>Paro</th></tr></thead>
+      <tbody>
+        <tr><td><span class="tag tag-green">Procedente disciplinario</span></td><td>Sin indemnización</td><td>Sí</td></tr>
+        <tr><td><span class="tag tag-red">Improcedente</span></td><td>33 días/año · máx. 24 mensualidades</td><td>Sí</td></tr>
+        <tr><td><span class="tag tag-yellow">Objetivo (ETOP)</span></td><td>20 días/año · máx. 12 mensualidades</td><td>Sí</td></tr>
+        <tr><td><span class="tag tag-purple">ERE colectivo</span></td><td>20 días/año · máx. 12 mensualidades</td><td>Sí</td></tr>
+        <tr><td><span class="tag tag-blue">Dimisión voluntaria</span></td><td>Sin indemnización</td><td>No</td></tr>
+      </tbody>
+    </table>
+    <div class="example-box" style="margin-top:1rem;"><p>Si Pedro lleva 10 años en la empresa y lo despiden de forma improcedente, cobraría: 33 días × 10 años = 330 días de salario como indemnización. Si su salario diario es de 70€, eso son 23.100€.</p></div>
+  </div>
+</section>
+<hr class="divider">
+
+<!-- ╔═══════════════════════════════════╗
+     ║  EXTRA: SEGURIDAD SOCIAL           ║
+     ╚═══════════════════════════════════╝ -->
+<section id="ss">
+  <div class="container">
+    <span class="section-label">Unidad Extra — Protección Social</span>
+    <h2 class="section-title">La Seguridad Social</h2>
+    <p style="color:var(--muted);max-width:720px;margin-bottom:2rem;">El sistema público de Seguridad Social protege a los ciudadanos ante situaciones de necesidad. Se financia principalmente mediante las <strong>cotizaciones</strong> de trabajadores y empresas.</p>
+
+    <div class="grid-3" style="margin-bottom:1.5rem;">
+      <div class="card card-green">
+        <div style="font-size:1.8rem;margin-bottom:8px;">🏥</div>
+        <h3>Incapacidad Temporal (IT)</h3>
+        <p>Baja laboral por enfermedad o accidente. Del 4º al 20º día: <strong>60% de la base reguladora</strong>. Del 21º en adelante: <strong>75%</strong>. Los 3 primeros días los paga la empresa (salvo accidente de trabajo).</p>
+      </div>
+      <div class="card card-blue">
+        <div style="font-size:1.8rem;margin-bottom:8px;">👶</div>
+        <h3>Nacimiento y Cuidado</h3>
+        <p>Permiso de <strong>16 semanas</strong> para ambos progenitores, intransferibles. Las 6 primeras semanas obligatorias e ininterrumpidas tras el parto. Prestación: <strong>100% de la base reguladora</strong>.</p>
+      </div>
+      <div class="card card-yellow">
+        <div style="font-size:1.8rem;margin-bottom:8px;">📉</div>
+        <h3>Desempleo (Paro)</h3>
+        <p>Se requiere haber cotizado al menos <strong>360 días</strong> en los 6 años anteriores. Duración: proporcional a los días cotizados (máx. 720 días). Cuantía: 70% base reguladora los 6 primeros meses, 50% después.</p>
+      </div>
+      <div class="card card-red">
+        <div style="font-size:1.8rem;margin-bottom:8px;">🦽</div>
+        <h3>Incapacidad Permanente</h3>
+        <p>Parcial (reduce el rendimiento normal), total (impide la profesión habitual), absoluta (impide toda profesión) y gran invalidez (necesita asistencia de tercero).</p>
+      </div>
+      <div class="card card-purple">
+        <div style="font-size:1.8rem;margin-bottom:8px;">🎂</div>
+        <h3>Jubilación</h3>
+        <p>Actualmente a los <strong>65 años</strong> (con 38,5 años cotizados) o a los <strong>67 años</strong>. Se necesita un mínimo de 15 años cotizados (2 de los últimos 15) para acceder a la pensión contributiva.</p>
+      </div>
+      <div class="card card-green">
+        <div style="font-size:1.8rem;margin-bottom:8px;">💊</div>
+        <h3>Asistencia Sanitaria</h3>
+        <p>Atención médica, hospitalaria y farmacéutica. Los trabajadores por cuenta ajena tienen acceso al sistema de salud a través de su cotización. Incluye prestaciones por accidente laboral y enfermedad profesional.</p>
+      </div>
+    </div>
+
+    <div class="highlight">
+      <strong>Régimen General vs Régimen Especial:</strong> La mayoría de trabajadores por cuenta ajena cotizan en el <em>Régimen General</em>. Los autónomos cotizan en el <em>RETA (Régimen Especial de Trabajadores Autónomos)</em>. Existen otros regímenes especiales para el mar, la minería, empleados del hogar, etc.
+    </div>
+  </div>
+</section>
+<hr class="divider">
+
+<!-- ╔═══════════════════════════════════╗
+     ║  EXTRA: PREVENCIÓN DE RIESGOS      ║
+     ╚═══════════════════════════════════╝ -->
+<section id="prevencion">
+  <div class="container">
+    <span class="section-label">Unidad Extra — Seguridad Laboral</span>
+    <h2 class="section-title">Prevención de Riesgos Laborales</h2>
+    <p style="color:var(--muted);max-width:720px;margin-bottom:2rem;">La <strong>Ley 31/1995 de Prevención de Riesgos Laborales</strong> regula los derechos y obligaciones de empresas y trabajadores en materia de seguridad y salud en el trabajo.</p>
+
+    <div class="grid-2" style="margin-bottom:1.5rem;">
+      <div class="card card-red">
+        <h3>🏢 Obligaciones del Empresario</h3>
+        <ul>
+          <li>Evaluar los <strong>riesgos laborales</strong> del puesto de trabajo.</li>
+          <li>Proporcionar los <strong>EPI</strong> (Equipos de Protección Individual) adecuados.</li>
+          <li>Informar y <strong>formar</strong> a los trabajadores sobre los riesgos.</li>
+          <li>Vigilar la <strong>salud</strong> de los trabajadores (reconocimientos médicos).</li>
+          <li>Disponer de un <strong>plan de emergencia</strong> y evacuación.</li>
+          <li>Consultar y hacer participar a los trabajadores en materia preventiva.</li>
+        </ul>
+      </div>
+      <div class="card card-blue">
+        <h3>👷 Obligaciones del Trabajador</h3>
+        <ul>
+          <li>Usar correctamente los <strong>equipos de trabajo</strong> y EPI suministrados.</li>
+          <li>Informar a su superior de cualquier situación de <strong>riesgo</strong> detectada.</li>
+          <li>No poner en peligro su seguridad ni la de sus compañeros.</li>
+          <li>Cooperar con el empresario en materia de prevención.</li>
+          <li>Asistir a la <strong>formación en PRL</strong> proporcionada por la empresa.</li>
+        </ul>
+        <div class="example-box"><p>Un técnico de soporte que detecta un cable eléctrico pelado en el CPD debe comunicarlo inmediatamente a su responsable, aunque no sea su función repararlo.</p></div>
+      </div>
+    </div>
+
+    <div class="grid-3">
+      <div class="card card-yellow">
+        <h3>📊 Tipos de Daños</h3>
+        <ul>
+          <li><strong>Accidente de trabajo:</strong> lesión corporal durante el trabajo por cuenta ajena.</li>
+          <li><strong>Enfermedad profesional:</strong> contraída por el trabajo con sustancias o condiciones recogidas en el cuadro oficial.</li>
+          <li><strong>Fatiga laboral:</strong> disminución de la capacidad de trabajo por esfuerzo.</li>
+          <li><strong>Estrés / burnout:</strong> riesgos psicosociales.</li>
+        </ul>
+      </div>
+      <div class="card card-purple">
+        <h3>🛡️ Órganos de Prevención</h3>
+        <ul>
+          <li><strong>Delegados de Prevención:</strong> representantes de los trabajadores en PRL.</li>
+          <li><strong>Comité de Seguridad y Salud:</strong> en empresas ≥ 50 trabajadores.</li>
+          <li><strong>Servicio de Prevención:</strong> propio, mancomunado o ajeno (SPA).</li>
+          <li><strong>ITSS:</strong> Inspección de Trabajo y Seguridad Social.</li>
+        </ul>
+      </div>
+      <div class="card card-green">
+        <h3>⚠️ Riesgos Específicos en Informática</h3>
+        <ul>
+          <li>Fatiga visual por uso prolongado de pantallas (PVD).</li>
+          <li>Trastornos musculoesqueléticos (postura, ratón, teclado).</li>
+          <li>Estrés por carga mental y plazos.</li>
+          <li>Sedentarismo. La normativa específica PVD exige revisiones periódicas de la vista.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+<hr class="divider">
+
+<!-- ╔═══════════════════════════════════╗
+     ║  EXTRA: NEGOCIACIÓN COLECTIVA      ║
+     ╚═══════════════════════════════════╝ -->
+<section id="negociacion">
+  <div class="container">
+    <span class="section-label">Unidad Extra — Convenios</span>
+    <h2 class="section-title">La Negociación Colectiva y el Convenio Colectivo</h2>
+    <p style="color:var(--muted);max-width:720px;margin-bottom:2rem;">El <strong>convenio colectivo</strong> es el acuerdo escrito negociado entre los representantes de los trabajadores y los de las empresas. Regula las condiciones de trabajo de un sector, empresa o grupo de empresas.</p>
+
+    <div class="grid-2" style="margin-bottom:1.5rem;">
+      <div class="card card-green">
+        <h3>📜 Características del Convenio</h3>
+        <ul>
+          <li>Tiene <strong>fuerza de ley</strong> para las partes afectadas.</li>
+          <li>Prevalece sobre el contrato individual si es más favorable para el trabajador.</li>
+          <li>Regula: salarios, jornada, vacaciones, categorías profesionales, régimen disciplinario.</li>
+          <li>Ámbito: puede ser de empresa, sectorial, provincial, autonómico o nacional.</li>
+          <li>Duración: la que pacten las partes. Si no se denuncia, se prorroga tácitamente.</li>
+        </ul>
+      </div>
+      <div class="card card-blue">
+        <h3>🤝 Proceso de Negociación</h3>
+        <div class="timeline">
+          <div class="tl-item"><div class="tl-dot"></div><h4>Iniciativa</h4><p>Cualquiera de las partes puede promover la negociación comunicándolo a la otra por escrito.</p></div>
+          <div class="tl-item"><div class="tl-dot"></div><h4>Constitución de la mesa</h4><p>Máximo 12 representantes por cada parte. Se debe constituir en un plazo de 1 mes.</p></div>
+          <div class="tl-item"><div class="tl-dot"></div><h4>Negociación</h4><p>Las partes negocian de buena fe. Pueden llegar a acuerdo o fracasar.</p></div>
+          <div class="tl-item"><div class="tl-dot"></div><h4>Firma y registro</h4><p>Una vez acordado, se firma y registra ante la autoridad laboral. Se publica en el BOE o BOPROV.</p></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="highlight">
+      <strong>Principio de norma más favorable:</strong> Cuando hay conflicto entre dos normas, se aplica la más favorable para el trabajador en su conjunto. Sin embargo, no pueden mezclarse aspectos de convenios distintos (principio de indivisibilidad).
+    </div>
+    <div class="example-box"><p>El convenio colectivo del sector informático puede establecer una jornada de 37,5 horas/semana (mejor que las 40 del ET) y 23 días laborables de vacaciones (mejor que los 22 del ET). Esas mejoras se aplican a todos los trabajadores del sector.</p></div>
+  </div>
+</section>
+<hr class="divider">
+
+<!-- ╔═══════════════════════════════════╗
+     ║  RESUMEN FINAL — TABLA GLOBAL      ║
+     ╚═══════════════════════════════════╝ -->
+<section id="resumen-global">
+  <div class="container">
+    <span class="section-label">Resumen Final</span>
+    <h2 class="section-title">Tabla Resumen Global de FOL</h2>
+    <p style="color:var(--muted);max-width:720px;margin-bottom:2rem;">Un vistazo rápido a los datos clave que más suelen entrar en los exámenes.</p>
+
+    <table class="styled-table">
+      <thead><tr><th>Concepto</th><th>Dato clave</th></tr></thead>
+      <tbody>
+        <tr><td>Jornada máxima legal</td><td>40 horas/semana en cómputo anual</td></tr>
+        <tr><td>Vacaciones mínimas</td><td>30 días naturales (22 laborables)</td></tr>
+        <tr><td>Horas extras máximas</td><td>80 horas al año</td></tr>
+        <tr><td>Descanso mínimo entre jornadas</td><td>12 horas</td></tr>
+        <tr><td>Descanso mínimo semanal</td><td>1,5 días (36 horas)</td></tr>
+        <tr><td>Período prueba técnicos titulados</td><td>6 meses máximo</td></tr>
+        <tr><td>Período prueba resto trabajadores</td><td>2 meses (3 en empresas &lt;25)</td></tr>
+        <tr><td>Formación alternancia: duración</td><td>3 meses — 2 años</td></tr>
+        <tr><td>Práctica profesional: duración</td><td>6 meses — 1 año</td></tr>
+        <tr><td>Indemnización despido improcedente</td><td>33 días/año · máx. 24 mensualidades</td></tr>
+        <tr><td>Indemnización despido objetivo</td><td>20 días/año · máx. 12 mensualidades</td></tr>
+        <tr><td>Indemnización contrato temporal</td><td>12 días/año de servicio</td></tr>
+        <tr><td>Preaviso huelga (general)</td><td>5 días antes</td></tr>
+        <tr><td>Preaviso huelga (servicios esenciales)</td><td>10 días antes</td></tr>
+        <tr><td>Comité de empresa: desde</td><td>50 trabajadores</td></tr>
+        <tr><td>Delegados de personal: desde</td><td>6 trabajadores (1, opcional)</td></tr>
+        <tr><td>Prescripción falta leve</td><td>10 días</td></tr>
+        <tr><td>Prescripción falta grave</td><td>20 días</td></tr>
+        <tr><td>Prescripción falta muy grave</td><td>60 días</td></tr>
+        <tr><td>Constitución española</td><td>Aprobada en 1978</td></tr>
+        <tr><td>Paro: mínimo cotizado para acceder</td><td>360 días en los últimos 6 años</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- FOOTER AMPLIO -->
+<footer style="margin-top:0; padding-top:0;">
+  <!-- Zona superior del footer con info -->
+  <div style="background:var(--surface); border-top:1px solid var(--border); padding:4rem 2rem 3rem;">
+    <div class="container">
+      <div class="grid-3" style="gap:2rem; margin-bottom:3rem;">
+        <div>
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:2.5rem;color:var(--accent1);letter-spacing:4px;margin-bottom:0.5rem;">FOL</div>
+          <p style="color:var(--muted);font-size:13px;">Formación y Orientación Laboral<br>FP Informática · Curso 2024–2025</p>
+          <div style="margin-top:1rem; display:flex; gap:8px; flex-wrap:wrap;">
+            <span class="tag tag-green">Derecho Laboral</span>
+            <span class="tag tag-blue">Contratos</span>
+            <span class="tag tag-yellow">Salario</span>
+            <span class="tag tag-red">PRL</span>
+            <span class="tag tag-purple">SS</span>
+          </div>
+        </div>
+        <div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--accent2);letter-spacing:3px;text-transform:uppercase;margin-bottom:1rem;">Contenido cubierto</div>
+          <ul style="list-style:none;font-size:13px;color:var(--muted);line-height:2;">
+            <li>✅ Relaciones laborales y exclusiones</li>
+            <li>✅ Jerarquía normativa laboral</li>
+            <li>✅ Todas las modalidades de contrato</li>
+            <li>✅ Período de prueba</li>
+            <li>✅ Salario, nómina y SMI</li>
+            <li>✅ Jornada, horario y permisos</li>
+            <li>✅ Extinción y despido</li>
+            <li>✅ Seguridad Social y prestaciones</li>
+            <li>✅ Prevención de Riesgos Laborales</li>
+            <li>✅ Negociación colectiva</li>
+            <li>✅ Representación de trabajadores</li>
+            <li>✅ Huelga y conflictos colectivos</li>
+            <li>✅ Tribunales laborales</li>
+          </ul>
+        </div>
+        <div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--accent3);letter-spacing:3px;text-transform:uppercase;margin-bottom:1rem;">Leyes de referencia</div>
+          <ul style="list-style:none;font-size:13px;color:var(--muted);line-height:2.2;">
+            <li>📘 RDL 2/2015 — Estatuto de los Trabajadores</li>
+            <li>📘 Ley 31/1995 — PRL</li>
+            <li>📘 RDL 8/2015 — Ley General SS</li>
+            <li>📘 LO 11/1985 — Libertad Sindical</li>
+            <li>📘 CE 1978 — Constitución Española</li>
+            <li>📘 RD 32/2021 — Reforma Laboral</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Línea separadora -->
+      <div style="height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent);margin-bottom:3rem;"></div>
+
+      <!-- Frase motivacional -->
+      <div style="text-align:center;margin-bottom:3rem;">
+        <blockquote style="font-family:'Bebas Neue',sans-serif;font-size:clamp(1.5rem,4vw,3rem);color:rgba(255,255,255,0.08);letter-spacing:3px;line-height:1.2;">
+          "EL CONOCIMIENTO DE TUS DERECHOS<br>ES EL PRIMER PASO PARA DEFENDERLOS"
+        </blockquote>
+      </div>
+
+      <!-- Grid de stats -->
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1rem;margin-bottom:3rem;">
+        <div style="text-align:center;padding:1.5rem;background:var(--card);border:1px solid var(--border);border-radius:12px;">
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:2.5rem;color:var(--accent1);">13</div>
+          <div style="font-size:12px;color:var(--muted);font-family:'JetBrains Mono',monospace;">SECCIONES</div>
+        </div>
+        <div style="text-align:center;padding:1.5rem;background:var(--card);border:1px solid var(--border);border-radius:12px;">
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:2.5rem;color:var(--accent2);">12</div>
+          <div style="font-size:12px;color:var(--muted);font-family:'JetBrains Mono',monospace;">FLASHCARDS</div>
+        </div>
+        <div style="text-align:center;padding:1.5rem;background:var(--card);border:1px solid var(--border);border-radius:12px;">
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:2.5rem;color:var(--accent3);">6</div>
+          <div style="font-size:12px;color:var(--muted);font-family:'JetBrains Mono',monospace;">EJERCICIOS</div>
+        </div>
+        <div style="text-align:center;padding:1.5rem;background:var(--card);border:1px solid var(--border);border-radius:12px;">
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:2.5rem;color:var(--accent4);">1</div>
+          <div style="font-size:12px;color:var(--muted);font-family:'JetBrains Mono',monospace;">EASTER EGG 👀</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Zona inferior oscura — espacio extra para el easter egg -->
+  <div style="background:var(--bg); min-height:600px; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:4rem 2rem; gap:2rem; border-top:1px solid var(--border);">
+    <div style="text-align:center; opacity:0.15;">
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:clamp(5rem,20vw,15rem);letter-spacing:8px;color:#fff;line-height:0.85;">FOL</div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:clamp(0.6rem,2vw,1rem);letter-spacing:8px;color:#fff;margin-top:1rem;">FORMACIÓN Y ORIENTACIÓN LABORAL</div>
+    </div>
+    <div style="opacity:0.08; text-align:center; margin-top:2rem;">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#fff;letter-spacing:4px;">FP INFORMÁTICA · 2024–2025 · RESUMEN VISUAL</div>
+    </div>
+    <!-- Espacio extra para que el easter egg tenga donde aparecer -->
+    <div style="height:320px;"></div>
+  </div>
+</footer>
+
+<!-- EASTER EGG -->
+<div id="easter-trigger">
+  <img src="andy.png" alt="andy" id="andyImg">
+</div>
+
+<!-- SCRIPTS -->
+<script>
+// ── PROGRESS BAR ──
+window.addEventListener('scroll', () => {
+  const s = document.documentElement;
+  const pct = (s.scrollTop / (s.scrollHeight - s.clientHeight)) * 100;
+  document.getElementById('progress-bar').style.width = pct + '%';
+
+  // Easter egg trigger: show when user scrolls past the end
+  const trigger = document.getElementById('easter-trigger');
+  if (s.scrollTop + s.clientHeight > s.scrollHeight - 10) {
+    trigger.classList.add('visible');
+  } else {
+    trigger.classList.remove('visible');
+  }
+});
+
+// ── ACCORDION ──
+function toggleAcc(header) {
+  const body = header.nextElementSibling;
+  const isOpen = body.classList.contains('open');
+  header.classList.toggle('open', !isOpen);
+  body.classList.toggle('open', !isOpen);
+}
+
+// ── FLIPCARDS ──
+const cards = [
+  { q: "¿Cuántos días de preaviso para declarar una huelga?", a: "5 días (10 en servicios esenciales)" },
+  { q: "¿Qué es el Estatuto de los Trabajadores?", a: "Ley que regula la relación laboral individual y colectiva" },
+  { q: "¿Duración mínima del contrato en prácticas?", a: "6 meses" },
+  { q: "¿Cuántos trabajadores se necesitan para un Comité de Empresa?", a: "50 trabajadores" },
+  { q: "¿Vacaciones mínimas anuales?", a: "30 días naturales" },
+  { q: "¿Qué es la relación laboral especial del MIR?", a: "Personal médico interno residente en período de formación" },
+  { q: "¿Plazo para sancionar faltas muy graves?", a: "60 días desde que la empresa tuvo conocimiento" },
+  { q: "¿Qué es el SMAC?", a: "Servicio de Mediación, Arbitraje y Conciliación (paso previo al juicio)" },
+  { q: "¿Indemnización del contrato por circunstancias de la producción?", a: "12 días de salario por año de servicio" },
+  { q: "¿Qué tribunal unifica doctrina laboral en España?", a: "El Tribunal Supremo (Sala de lo Social)" },
+  { q: "¿Período de prueba máximo para técnicos titulados?", a: "6 meses" },
+  { q: "¿Cuál es el % de Seguridad Social que paga el trabajador?", a: "6,35% (aprox.)" },
+];
+
+const grid = document.getElementById('flashcardGrid');
+cards.forEach(c => {
+  const fc = document.createElement('div');
+  fc.className = 'flipcard';
+  fc.innerHTML = `<div class="flipcard-inner">
+    <div class="flipcard-front"><span>${c.q}</span></div>
+    <div class="flipcard-back"><span>${c.a}</span></div>
+  </div>`;
+  fc.addEventListener('click', () => fc.classList.toggle('flipped'));
+  grid.appendChild(fc);
+});
+
+// ── CALCULADORA ──
+function calcSalario() {
+  const bruto = parseFloat(document.getElementById('salarioBruto').value) || 0;
+  const irpf  = parseFloat(document.getElementById('irpf').value) || 0;
+  const ss    = parseFloat(document.getElementById('ss').value) || 0;
+  const pagas = parseFloat(document.getElementById('pagas').value) || 14;
+  const desc = bruto * (irpf / 100) + bruto * (ss / 100);
+  const neto = bruto - desc;
+  document.getElementById('netoAnual').textContent = neto.toLocaleString('es-ES', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 });
+  document.getElementById('netoPaga').textContent = (neto / pagas).toLocaleString('es-ES', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }) + ' por paga';
+}
+calcSalario();
+
+// ── EJERCICIO 1 ──
+function checkEj1() {
+  const v = document.getElementById('ej1').value.trim();
+  const fb = document.getElementById('fb1');
+  if (!v) { fb.className='ex-feedback show-neutral'; fb.innerHTML='Escribe algo antes de verificar 😊'; return; }
+  fb.className = 'ex-feedback show-good';
+  fb.innerHTML = `<strong>Orientación de respuesta:</strong><br>
+  a) Elena (profesora IES): <strong>Relación EXCLUIDA</strong> — es funcionaria pública, no trabajadora por cuenta ajena del ET.<br>
+  b) Marcos (agente comercial con libertad): depende de si hay dependencia real. Si cobra solo comisiones y es independiente, podría ser <strong>Relación Laboral Especial</strong> de agente comercial.<br>
+  c) Sofía (ayuda vecina gratis): <strong>Excluida</strong> — es un trabajo de amistad/buena vecindad, sin retribución.<br>
+  d) David (MIR): <strong>Relación Laboral Especial</strong> — personal médico interno residente en período de formación.`;
+}
+
+// ── DRAG & DROP ──
+let dragSrc = null;
+const correctOrder = ['Norma UE','Constitución','Ley orgánica','Reglamento','Convenio colectivo','Contrato de trabajo'];
+
+document.querySelectorAll('.drag-item').forEach(item => {
+  item.addEventListener('dragstart', e => { dragSrc = item; item.classList.add('dragging'); });
+  item.addEventListener('dragend', () => item.classList.remove('dragging'));
+});
+document.querySelectorAll('.drop-slot').forEach(slot => {
+  slot.addEventListener('dragover', e => { e.preventDefault(); slot.classList.add('over'); });
+  slot.addEventListener('dragleave', () => slot.classList.remove('over'));
+  slot.addEventListener('drop', e => {
+    e.preventDefault();
+    if (dragSrc) {
+      slot.textContent = slot.dataset.pos + 'º ' + dragSrc.dataset.val;
+      slot.classList.add('filled');
+      slot.dataset.filled = dragSrc.dataset.val;
+      dragSrc.style.opacity = '0.3';
+      dragSrc.draggable = false;
+    }
+    slot.classList.remove('over');
+  });
+});
+
+function checkDrag() {
+  const slots = document.querySelectorAll('.drop-slot');
+  let filled = Array.from(slots).map(s => s.dataset.filled || '');
+  let correct = 0;
+  filled.forEach((val, i) => {
+    if (val === correctOrder[i]) correct++;
+  });
+  const fb = document.getElementById('fb2');
+  fb.className = correct === correctOrder.length ? 'ex-feedback show-good' : 'ex-feedback show-neutral';
+  fb.innerHTML = correct === correctOrder.length
+    ? '✅ ¡Perfecto! Orden correcto: Norma UE → Constitución → Ley orgánica → Reglamento → Convenio colectivo → Contrato de trabajo.'
+    : `Has acertado ${correct}/${correctOrder.length}. El orden correcto es: <strong>Norma UE → Constitución → Ley orgánica → Reglamento → Convenio colectivo → Contrato de trabajo</strong>.`;
+}
+
+function resetDrag() {
+  document.querySelectorAll('.drop-slot').forEach(s => {
+    s.textContent = s.dataset.pos + 'º ···';
+    s.classList.remove('filled');
+    delete s.dataset.filled;
+  });
+  document.querySelectorAll('.drag-item').forEach(i => {
+    i.style.opacity = '1';
+    i.draggable = true;
+  });
+  document.getElementById('fb2').className = 'ex-feedback';
+}
+
+// ── MATCHING ──
+const matchData = [
+  { label: 'Formación en alternancia', correct: 'Máx 2 años, sin periodo de prueba' },
+  { label: 'Contrato de sustitución', correct: 'Sin indemnización al finalizar' },
+  { label: 'Fijo discontinuo', correct: 'Indefinido con trabajo estacional' },
+  { label: 'Práctica profesional', correct: 'Máx 1 año, necesita titulación' },
+  { label: 'Circ. de la producción', correct: 'Indemnización 12 días/año' },
+];
+const matchOptions = matchData.map(m => m.correct).sort(() => Math.random() - 0.5);
+const mZone = document.getElementById('matchingExercise');
+matchData.forEach((item, i) => {
+  const row = document.createElement('div');
+  row.className = 'match-pair';
+  const opts = matchOptions.map(o => `<option value="${o}">${o}</option>`).join('');
+  row.innerHTML = `<div class="match-label">${item.label}</div>
+    <span style="color:var(--muted)">→</span>
+    <select class="match-select" id="match_${i}"><option value="">Selecciona...</option>${opts}</select>`;
+  mZone.appendChild(row);
+});
+
+function checkMatching() {
+  let correct = 0;
+  matchData.forEach((item, i) => {
+    const sel = document.getElementById('match_' + i);
+    if (sel.value === item.correct) { correct++; sel.style.borderColor = 'var(--accent1)'; }
+    else { sel.style.borderColor = 'var(--accent4)'; }
+  });
+  const fb = document.getElementById('fb3');
+  fb.className = correct === matchData.length ? 'ex-feedback show-good' : 'ex-feedback show-neutral';
+  fb.innerHTML = correct === matchData.length
+    ? '✅ ¡Todos correctos! Excelente dominio de los tipos de contrato.'
+    : `Has acertado ${correct}/${matchData.length}. Los incorrectos se han marcado en rojo. Revisa el material y vuelve a intentarlo.`;
+}
+
+// ── SCENARIO ──
+const scenarios = [
+  {
+    q: "La empresa Techify SL tiene un pico de trabajo por la campaña de Navidad y necesita contratar a alguien durante 2 meses. ¿Qué contrato debe usar?",
+    options: [
+      "Contrato indefinido ordinario",
+      "Contrato por circunstancias de la producción (previsible)",
+      "Contrato de sustitución",
+      "Contrato de formación en alternancia"
+    ],
+    correct: 1,
+    explanation: "La campaña de Navidad es un incremento ocasional y previsible de la actividad. Se usa el contrato por circunstancias de la producción (causas previsibles), con máximo de 90 días/año natural."
+  },
+  {
+    q: "Beatriz, que tiene el título de CFGS en ASIR desde hace 2 años, quiere conseguir experiencia práctica. ¿Cuánto puede durar su contrato formativo de práctica profesional?",
+    options: [
+      "Entre 3 meses y 2 años",
+      "Entre 6 meses y 1 año",
+      "Hasta 3 años",
+      "Máximo 6 meses"
+    ],
+    correct: 1,
+    explanation: "El contrato para la obtención de la práctica profesional tiene una duración de entre 6 meses y 1 año. Beatriz aún puede acceder a él (dentro de los 3 años siguientes al título)."
+  }
+];
+
+let currentScenario = 0;
+const sCont = document.getElementById('scenarioContainer');
+
+function renderScenario(idx) {
+  if (idx >= scenarios.length) {
+    sCont.innerHTML = '<div class="highlight">🎉 ¡Has completado todos los escenarios! Vuelve a repasarlos si quieres.</div>';
+    return;
+  }
+  const s = scenarios[idx];
+  sCont.innerHTML = `<div class="scenario-box">
+    <div class="scenario-question">${idx + 1}/${scenarios.length}: ${s.q}</div>
+    <div class="scenario-options">
+      ${s.options.map((o, i) => `<div class="scenario-option" onclick="answerScenario(${i})">${String.fromCharCode(65+i)}) ${o}</div>`).join('')}
+    </div>
+    <div class="ex-feedback" id="sfb"></div>
+  </div>`;
+}
+
+function answerScenario(chosen) {
+  const s = scenarios[currentScenario];
+  const opts = document.querySelectorAll('.scenario-option');
+  opts.forEach((el, i) => {
+    if (i === s.correct) el.classList.add('correct');
+    else if (i === chosen && chosen !== s.correct) el.classList.add('wrong');
+    el.style.pointerEvents = 'none';
+  });
+  const fb = document.getElementById('sfb');
+  fb.className = chosen === s.correct ? 'ex-feedback show-good' : 'ex-feedback show-neutral';
+  fb.innerHTML = (chosen === s.correct ? '✅ ¡Correcto! ' : '❌ No exactamente. ') + s.explanation + ' <button class="btn btn-secondary" style="margin-top:8px;font-size:12px;" onclick="nextScenario()">Siguiente →</button>';
+}
+
+function nextScenario() { currentScenario++; renderScenario(currentScenario); }
+renderScenario(0);
+
+// ── EJ5 ──
+function checkEj5() {
+  const v = document.getElementById('ej5').value.trim();
+  const fb = document.getElementById('fb5');
+  if (!v) { fb.className='ex-feedback show-neutral'; fb.innerHTML='Desarrolla tu respuesta primero 😊'; return; }
+  fb.className = 'ex-feedback show-good';
+  fb.innerHTML = `<strong>Orientación:</strong> Para un recién titulado de FP DAW, el contrato más adecuado es el <strong>contrato para la obtención de práctica profesional</strong>, siempre que no hayan pasado más de 3 años desde que obtuvo el título. Duración: entre 6 meses y 1 año (los 8 meses propuestos son válidos). Período de prueba máximo: 1 mes. Retribución: fijada por convenio colectivo, nunca inferior al SMI. Al finalizar, no hay derecho a indemnización.`;
+}
+
+// ── EJ6 ──
+function checkEj6() {
+  const v = document.getElementById('ej6').value.trim();
+  const fb = document.getElementById('fb6');
+  if (!v) { fb.className='ex-feedback show-neutral'; fb.innerHTML='Escribe tu respuesta primero.'; return; }
+  fb.className = 'ex-feedback show-good';
+  fb.innerHTML = `<strong>Respuesta:</strong> Con 320 trabajadores, la empresa necesita un <strong>Comité de Empresa</strong> (ya que supera los 50 trabajadores). Los delegados de personal solo se usan hasta 49 trabajadores. Con 251 a 500 trabajadores, corresponden <strong>13 representantes</strong> en el comité.`;
+}
+
+// ── EASTER EGG ──
+const chaosWords = [
+  "slap battles", "forsaken", "eddy es gordo", "AHHHHHHHHHH",
+  "john doe", "coolkid", "god hand", "ostiaaa", "hehe"
+];
+
+let easterActivated = false;
+document.getElementById('easter-trigger').addEventListener('click', () => {
+  if (easterActivated) return;
+  easterActivated = true;
+
+  // Replace all text nodes
+  const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
+    acceptNode: n => {
+      const skip = ['SCRIPT','STYLE','NOSCRIPT'];
+      if (skip.includes(n.parentNode.tagName)) return NodeFilter.FILTER_REJECT;
+      if (n.textContent.trim() === '') return NodeFilter.FILTER_REJECT;
+      return NodeFilter.FILTER_ACCEPT;
+    }
+  });
+
+  const nodes = [];
+  while (walker.nextNode()) nodes.push(walker.currentNode);
+
+  nodes.forEach(node => {
+    const words = node.textContent.split(/\s+/);
+    node.textContent = words.map(() => chaosWords[Math.floor(Math.random() * chaosWords.length)]).join(' ');
+  });
+
+  // Flash
+  document.body.style.animation = 'chaosPulse 0.3s 3';
+  document.body.style.filter = 'hue-rotate(180deg)';
+  setTimeout(() => { document.body.style.filter = ''; }, 900);
+
+  // Title
+  document.title = '🚨 OSTIAAA 🚨';
+
+  // Wiggle the easter egg button
+  const btn = document.getElementById('easter-trigger');
+  btn.style.transform = 'translateX(-50%) rotate(720deg) scale(2)';
+  btn.style.transition = 'all 1s cubic-bezier(0.34,1.56,0.64,1)';
+  setTimeout(() => { btn.style.transform = 'translateX(-50%) scale(1)'; }, 1000);
+});
+</script>
+</body>
+</html>
