@@ -461,89 +461,6 @@ em { color: var(--accent3); font-style: normal; font-weight: 600; }
 }
 .sticky-nav a:hover { color: var(--accent1); background: var(--glow1); }
 .sticky-nav .nav-logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.2rem; color: var(--accent1); margin-right: 8px; }
-
-/* ── FLOATING TOOLS ── */
-#float-tools {
-  position: fixed; bottom: 28px; right: 28px;
-  display: flex; flex-direction: column; gap: 12px; z-index: 400;
-}
-.float-btn {
-  width: 54px; height: 54px; border-radius: 14px; border: none;
-  cursor: pointer; font-size: 1.4rem;
-  display: flex; align-items: center; justify-content: center;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.4); transition: all 0.2s;
-}
-.float-btn:hover { transform: scale(1.1) translateY(-2px); }
-#btn-calc  { background: linear-gradient(135deg,#1a2236,#2a3a55); color: var(--accent1); border: 1px solid var(--accent1); }
-#btn-notes { background: linear-gradient(135deg,#f5a623,#ffd07a); color: #000; }
-
-/* ── DRAGGABLE WINDOWS ── */
-.draggable-window {
-  position: fixed; z-index: 600; border-radius: 16px;
-  box-shadow: 0 24px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.06);
-  overflow: hidden; display: none; min-width: 300px; max-width: 95vw;
-  animation: winOpen .22s cubic-bezier(.4,0,.2,1);
-  resize: both;
-}
-.draggable-window.open { display: flex; flex-direction: column; }
-@keyframes winOpen { from { opacity:0; transform:scale(.92) translateY(10px); } to { opacity:1; transform:none; } }
-.window-titlebar {
-  display: flex; align-items: center; padding: 11px 14px;
-  background: linear-gradient(90deg,#0d1b2a,#1b2d42);
-  cursor: grab; user-select: none; gap: 10px;
-  border-bottom: 1px solid rgba(255,255,255,0.07); flex-shrink: 0;
-}
-.window-titlebar:active { cursor: grabbing; }
-.window-dots { display: flex; gap: 6px; flex-shrink: 0; }
-.window-dot { width: 12px; height: 12px; border-radius: 50%; cursor: pointer; transition: filter .2s; }
-.window-dot.close { background: #ff5f56; }
-.window-dot.mini  { background: #febc2e; }
-.window-dot.maxb  { background: #27c83f; }
-.window-dot:hover { filter: brightness(1.25); }
-.window-title { font-family: 'Bebas Neue', sans-serif; color: #fff; font-size: 1rem; flex: 1; text-align: center; letter-spacing: 1px; }
-.window-body { background: #0d1b2a; flex: 1; overflow: auto; min-height: 0; }
-
-/* CALC WINDOW */
-#win-calc { width: 340px; top: 80px; right: 100px; }
-#calc-display { padding: 14px 18px; text-align: right; background: rgba(0,0,0,0.25); border-bottom: 1px solid rgba(255,255,255,0.06); }
-#calc-expr { font-family: 'JetBrains Mono', monospace; font-size: .76rem; color: rgba(255,255,255,0.35); min-height: 16px; word-break: break-all; }
-#calc-result { font-family: 'JetBrains Mono', monospace; font-size: 2.1rem; color: #fff; margin-top: 4px; word-break: break-all; }
-#calc-mode-row { display: flex; padding: 7px 9px; gap: 5px; background: rgba(0,0,0,0.15); border-bottom: 1px solid rgba(255,255,255,0.05); }
-.calc-mode-btn { flex: 1; padding: 5px; border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; background: rgba(255,255,255,0.05); color: rgba(255,255,255,0.5); font-family: 'JetBrains Mono', monospace; font-size: .66rem; cursor: pointer; transition: all .2s; }
-.calc-mode-btn.active { background: rgba(0,212,170,0.2); border-color: var(--accent1); color: var(--accent1); }
-#calc-hist { padding: 5px 11px; font-family: 'JetBrains Mono', monospace; font-size: .66rem; color: rgba(255,255,255,0.22); border-top: 1px solid rgba(255,255,255,0.05); min-height: 22px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-#calc-grid { display: grid; grid-template-columns: repeat(5,1fr); gap: 3px; padding: 7px 9px 11px; }
-.calc-btn { padding: 12px 3px; border: none; border-radius: 7px; font-family: 'JetBrains Mono', monospace; font-size: .8rem; cursor: pointer; transition: all .18s; background: rgba(255,255,255,0.07); color: rgba(255,255,255,0.85); }
-.calc-btn:hover { background: rgba(255,255,255,0.14); }
-.calc-btn:active { transform: scale(.9); }
-.calc-btn.op  { color: var(--accent1); background: rgba(0,212,170,0.1); }
-.calc-btn.op:hover { background: rgba(0,212,170,0.2); }
-.calc-btn.eq  { background: linear-gradient(135deg,var(--accent1),#00b894); color: #000; font-weight: 700; }
-.calc-btn.clr { color: var(--accent4); background: rgba(247,110,79,0.1); }
-.calc-btn.fn  { color: var(--accent3); background: rgba(247,201,72,0.08); font-size: .7rem; }
-.calc-btn.fn:hover { background: rgba(247,201,72,0.18); }
-.calc-btn.mem { color: var(--accent5); background: rgba(192,132,252,0.08); font-size: .7rem; }
-
-/* NOTES WINDOW */
-#win-notes { width: 420px; top: 80px; left: 60px; }
-#notes-body { padding: 12px; flex: 1; display: flex; flex-direction: column; min-height: 0; }
-#notes-toolbar { display: flex; gap: 4px; margin-bottom: 7px; flex-wrap: wrap; }
-.notes-tool-btn { padding: 4px 9px; border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.6); font-size: .7rem; cursor: pointer; font-family: 'JetBrains Mono', monospace; transition: all .2s; }
-.notes-tool-btn:hover { background: rgba(255,255,255,0.12); color: #fff; }
-#notes-ta { width: 100%; flex: 1; min-height: 220px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; color: #fff; font-family: 'JetBrains Mono', monospace; font-size: .8rem; padding: 12px; resize: vertical; outline: none; }
-#notes-ta:focus { border-color: var(--accent1); }
-.notes-footer { display: flex; align-items: center; gap: 8px; margin-top: 8px; flex-wrap: wrap; }
-.notes-char-count { font-family: 'JetBrains Mono', monospace; font-size: .66rem; color: rgba(255,255,255,0.3); flex: 1; }
-.notes-btn { padding: 6px 14px; border-radius: 7px; border: 1px solid rgba(255,255,255,0.15); background: rgba(255,255,255,0.07); color: rgba(255,255,255,0.7); font-size: .75rem; cursor: pointer; transition: all .2s; }
-.notes-btn:hover { background: rgba(255,255,255,0.14); color: #fff; }
-
-/* ── EXTRA FLASHCARD STYLES ── */
-.fc-filter-bar { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 1.5rem; }
-.fc-filter-btn { padding: 6px 16px; border-radius: 999px; border: 1px solid var(--border); background: var(--card); color: var(--muted); font-size: 12px; font-family: 'JetBrains Mono', monospace; cursor: pointer; transition: all .2s; }
-.fc-filter-btn.active, .fc-filter-btn:hover { border-color: var(--accent1); color: var(--accent1); background: var(--glow1); }
-.fc-counter { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--muted); margin-bottom: 1rem; }
-.flipcard[data-cat] { transition: opacity .2s; }
-.flipcard.hidden { display: none; }
 </style>
 </head>
 <body>
@@ -566,14 +483,6 @@ em { color: var(--accent3); font-style: normal; font-weight: 600; }
     <a href="#representacion" class="pill">👥 Representación</a>
     <a href="#conflictos" class="pill">⚡ Conflictos</a>
     <a href="#tribunales" class="pill">🏛️ Tribunales</a>
-    <a href="#salario" class="pill">💰 Salario y Nómina</a>
-    <a href="#jornada" class="pill">⏰ Jornada</a>
-    <a href="#extincion" class="pill">🚪 Extinción</a>
-    <a href="#ss" class="pill">🏥 Seguridad Social</a>
-    <a href="#prevencion" class="pill">🦺 PRL</a>
-    <a href="#negociacion" class="pill">🤝 Negociación</a>
-    <a href="#emprendimiento" class="pill">🚀 Emprendimiento</a>
-    <a href="#flashcards" class="pill">🃏 Flashcards</a>
     <a href="#ejercicios" class="pill">✏️ Ejercicios</a>
   </div>
   <div class="scroll-hint">scroll</div>
@@ -590,14 +499,6 @@ em { color: var(--accent3); font-style: normal; font-weight: 600; }
   <a href="#representacion">Representación</a>
   <a href="#conflictos">Conflictos</a>
   <a href="#tribunales">Tribunales</a>
-  <a href="#salario">Salario</a>
-  <a href="#jornada">Jornada</a>
-  <a href="#extincion">Extinción</a>
-  <a href="#ss">SS</a>
-  <a href="#prevencion">PRL</a>
-  <a href="#negociacion">Convenios</a>
-  <a href="#emprendimiento">Emprendimiento</a>
-  <a href="#flashcards">Flashcards</a>
   <a href="#ejercicios">Ejercicios</a>
 </nav>
 
@@ -1828,255 +1729,6 @@ em { color: var(--accent3); font-style: normal; font-weight: 600; }
   </div>
 </section>
 
-<!-- ╔═══════════════════════════════════╗
-     ║  EXTRA: EMPRENDIMIENTO Y AUTÓNOMOS ║
-     ╚═══════════════════════════════════╝ -->
-<section id="emprendimiento">
-  <div class="container">
-    <span class="section-label">Unidad Extra — Autoempleo</span>
-    <h2 class="section-title">Emprendimiento y Trabajo Autónomo</h2>
-    <p style="color:var(--muted);max-width:720px;margin-bottom:2rem;">El <strong>trabajador autónomo</strong> (TRADE — Trabajador Autónomo Dependiente Económicamente) realiza una actividad económica o profesional por cuenta propia. Se regula por la <em>Ley 20/2007 del Estatuto del Trabajo Autónomo (LETA)</em>.</p>
-
-    <div class="grid-3" style="margin-bottom:1.5rem;">
-      <div class="card card-green">
-        <div style="font-size:2rem;margin-bottom:8px;">🏢</div>
-        <h3>Formas Jurídicas</h3>
-        <ul>
-          <li><strong>Empresario individual:</strong> sin personalidad jurídica separada, responsabilidad ilimitada.</li>
-          <li><strong>SL (Sociedad Limitada):</strong> capital mínimo 1€ (reforma 2023), responsabilidad limitada.</li>
-          <li><strong>SA (Sociedad Anónima):</strong> capital mínimo 60.000€, acciones libremente transmisibles.</li>
-          <li><strong>Cooperativa:</strong> gestión democrática, fines de interés general o mutual.</li>
-        </ul>
-      </div>
-      <div class="card card-blue">
-        <div style="font-size:2rem;margin-bottom:8px;">💼</div>
-        <h3>TRADE — Autónomo Dependiente</h3>
-        <p>El TRADE es el autónomo que recibe al menos el <strong>75% de sus ingresos de un único cliente</strong>. Tiene derechos adicionales: vacaciones pagadas (18 días/año), descanso semanal, etc. Debe registrarse como TRADE ante el SEPE.</p>
-        <div class="example-box"><p>Carlos es desarrollador freelance y el 80% de sus ingresos vienen de TechCorp SL → es TRADE y puede firmar un Acuerdo de Interés Profesional.</p></div>
-      </div>
-      <div class="card card-yellow">
-        <div style="font-size:2rem;margin-bottom:8px;">📊</div>
-        <h3>Plan de Empresa</h3>
-        <ul>
-          <li><strong>Idea de negocio:</strong> qué producto/servicio y a quién.</li>
-          <li><strong>Estudio de mercado:</strong> análisis de la competencia y demanda.</li>
-          <li><strong>Plan de marketing:</strong> precio, distribución, comunicación.</li>
-          <li><strong>Plan financiero:</strong> inversiones iniciales, previsión de ingresos y gastos.</li>
-          <li><strong>Forma jurídica:</strong> elección según necesidades.</li>
-        </ul>
-      </div>
-    </div>
-
-    <div class="grid-2" style="margin-bottom:1.5rem;">
-      <div class="card card-red">
-        <h3>⚠️ Obligaciones del Autónomo</h3>
-        <ul>
-          <li>Alta en el <strong>RETA</strong> (Régimen Especial de Trabajadores Autónomos).</li>
-          <li>Darse de alta en <strong>Hacienda</strong> (modelo 036/037 — declaración censal).</li>
-          <li>Pagar la <strong>cuota de autónomos</strong> mensualmente (cuota mínima ~294€/mes en 2024, variable según ingresos reales desde 2023).</li>
-          <li>Declarar el <strong>IVA</strong> trimestralmente (mod. 303) y anualmente (mod. 390).</li>
-          <li>Declarar el <strong>IRPF</strong> mediante pagos fraccionados trimestrales (mod. 130).</li>
-          <li>Emitir <strong>facturas</strong> por cada servicio o venta.</li>
-        </ul>
-      </div>
-      <div class="card card-purple">
-        <h3>🎯 Análisis DAFO</h3>
-        <p style="margin-bottom:0.75rem;">Herramienta estratégica para evaluar un proyecto empresarial:</p>
-        <table class="styled-table">
-          <thead><tr><th>Interno</th><th>Externo</th></tr></thead>
-          <tbody>
-            <tr>
-              <td><span style="color:var(--accent1);">✅ Fortalezas</span><br><small style="color:var(--muted)">Lo que hacemos bien (ventajas propias)</small></td>
-              <td><span style="color:var(--accent2);">🌍 Oportunidades</span><br><small style="color:var(--muted)">Factores externos favorables</small></td>
-            </tr>
-            <tr>
-              <td><span style="color:var(--accent4);">❌ Debilidades</span><br><small style="color:var(--muted)">Lo que nos falta o nos perjudica</small></td>
-              <td><span style="color:var(--accent3);">⚡ Amenazas</span><br><small style="color:var(--muted)">Factores externos perjudiciales</small></td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <div class="accordion">
-      <div class="acc-header" onclick="toggleAcc(this)">💡 Ayudas e incentivos al emprendimiento <span>+</span></div>
-      <div class="acc-body">
-        <div class="grid-2">
-          <div>
-            <h4 style="color:var(--accent1);margin-bottom:0.5rem;">Para autónomos</h4>
-            <ul style="font-size:13px;color:var(--muted);padding-left:1.2rem;line-height:1.9;">
-              <li><strong>Tarifa plana de autónomos:</strong> cuota reducida (80€/mes) durante el primer año, ampliable si los ingresos no superan el SMI.</li>
-              <li><strong>Capitalización del desempleo:</strong> cobrar el paro en un único pago para emprender.</li>
-              <li><strong>Deducciones fiscales:</strong> gastos deducibles en IRPF (suministros, teléfono, desplazamientos, formación).</li>
-            </ul>
-          </div>
-          <div>
-            <h4 style="color:var(--accent2);margin-bottom:0.5rem;">Para empresas (SL/SA)</h4>
-            <ul style="font-size:13px;color:var(--muted);padding-left:1.2rem;line-height:1.9;">
-              <li><strong>Impuesto de Sociedades reducido:</strong> tipo reducido del 15% durante los 2 primeros años con base imponible positiva.</li>
-              <li><strong>Incentivos I+D+i:</strong> deducciones por inversión en investigación, desarrollo e innovación.</li>
-              <li><strong>Financiación pública:</strong> ENISA, ICO, CDTI, Fondos FEDER europeos.</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="accordion" style="margin-top:0.75rem;">
-      <div class="acc-header" onclick="toggleAcc(this)">🤖 Digitalización y nuevas formas de trabajo <span>+</span></div>
-      <div class="acc-body">
-        <div class="grid-3">
-          <div class="card card-green" style="margin:0;">
-            <h3>📱 Teletrabajo</h3>
-            <p>Regulado por la <strong>Ley 10/2021</strong>. Mínimo 30% de la jornada en remoto. La empresa debe compensar gastos (electricidad, internet). Derecho a la desconexión digital.</p>
-          </div>
-          <div class="card card-blue" style="margin:0;">
-            <h3>🚴 Economía de plataformas</h3>
-            <p>La <strong>Ley Rider (RDL 9/2021)</strong> presume que los repartidores de plataformas (Glovo, Deliveroo) son trabajadores por cuenta ajena, no autónomos.</p>
-          </div>
-          <div class="card card-yellow" style="margin:0;">
-            <h3>🤖 Inteligencia Artificial</h3>
-            <p>El <strong>Reglamento IA de la UE (2024)</strong> clasifica los sistemas de IA por nivel de riesgo. Las empresas deben informar a los representantes de los trabajadores sobre el uso de algoritmos que afecten a las condiciones laborales.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-<hr class="divider">
-
-<!-- ╔═══════════════════════════════════╗
-     ║  FLASHCARDS — SECCIÓN DEDICADA    ║
-     ╚═══════════════════════════════════╝ -->
-<section id="flashcards">
-  <div class="container">
-    <span class="section-label">Repaso — Flashcards interactivas</span>
-    <h2 class="section-title">Flashcards FOL — Repasa Todo</h2>
-    <p style="color:var(--muted);max-width:680px;margin-bottom:1.5rem;">Haz clic en cada tarjeta para ver la respuesta. Usa los filtros para estudiar por tema. <strong>Hay más de 60 tarjetas</strong> con todos los temas del curso.</p>
-
-    <div class="fc-filter-bar">
-      <button class="fc-filter-btn active" onclick="filterCards('all',this)">Todas</button>
-      <button class="fc-filter-btn" onclick="filterCards('contratos',this)">📄 Contratos</button>
-      <button class="fc-filter-btn" onclick="filterCards('normativa',this)">⚖️ Normativa</button>
-      <button class="fc-filter-btn" onclick="filterCards('salario',this)">💰 Salario</button>
-      <button class="fc-filter-btn" onclick="filterCards('jornada',this)">⏰ Jornada</button>
-      <button class="fc-filter-btn" onclick="filterCards('extincion',this)">🚪 Extinción</button>
-      <button class="fc-filter-btn" onclick="filterCards('ss',this)">🏥 SS</button>
-      <button class="fc-filter-btn" onclick="filterCards('prl',this)">🦺 PRL</button>
-      <button class="fc-filter-btn" onclick="filterCards('representacion',this)">👥 Representación</button>
-      <button class="fc-filter-btn" onclick="filterCards('conflictos',this)">⚡ Conflictos</button>
-      <button class="fc-filter-btn" onclick="filterCards('emprendimiento',this)">🚀 Emprendimiento</button>
-    </div>
-    <div class="fc-counter" id="fcCounter">Mostrando todas las tarjetas</div>
-    <div id="flashcardGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1rem;"></div>
-  </div>
-</section>
-<hr class="divider">
-
-<!-- FLOATING TOOLS -->
-<div id="float-tools">
-  <button class="float-btn" id="btn-notes" onclick="openFolWindow('win-notes')" title="Bloc de notas">📝</button>
-  <button class="float-btn" id="btn-calc" onclick="openFolWindow('win-calc')" title="Calculadora científica">🔢</button>
-</div>
-
-<!-- CALCULATOR WINDOW -->
-<div class="draggable-window" id="win-calc">
-  <div class="window-titlebar" id="titlebar-calc">
-    <div class="window-dots">
-      <div class="window-dot close" onclick="closeFolWindow('win-calc')"></div>
-      <div class="window-dot mini" onclick="closeFolWindow('win-calc')"></div>
-      <div class="window-dot maxb"></div>
-    </div>
-    <div class="window-title">🔢 Calculadora Científica</div>
-  </div>
-  <div class="window-body">
-    <div id="calc-display">
-      <div id="calc-expr"></div>
-      <div id="calc-result">0</div>
-    </div>
-    <div id="calc-mode-row">
-      <button class="calc-mode-btn active" id="mode-deg" onclick="setFolMode('deg')">DEG</button>
-      <button class="calc-mode-btn" id="mode-rad" onclick="setFolMode('rad')">RAD</button>
-      <button class="calc-mode-btn" id="mode-sci" onclick="setFolMode('sci')">SCI</button>
-    </div>
-    <div id="calc-hist">— historial —</div>
-    <div id="calc-grid">
-      <button class="calc-btn fn" onclick="folFn('sin(')">sin</button>
-      <button class="calc-btn fn" onclick="folFn('cos(')">cos</button>
-      <button class="calc-btn fn" onclick="folFn('tan(')">tan</button>
-      <button class="calc-btn fn" onclick="folFn('asin(')">sin⁻¹</button>
-      <button class="calc-btn fn" onclick="folFn('acos(')">cos⁻¹</button>
-      <button class="calc-btn fn" onclick="folFn('atan(')">tan⁻¹</button>
-      <button class="calc-btn fn" onclick="folFn('sqrt(')">√</button>
-      <button class="calc-btn fn" onclick="folFn('log10(')">log</button>
-      <button class="calc-btn fn" onclick="folFn('ln(')">ln</button>
-      <button class="calc-btn fn" onclick="folFn('abs(')">|x|</button>
-      <button class="calc-btn fn" onclick="folFn('**2')">x²</button>
-      <button class="calc-btn fn" onclick="folFn('**(1/3)')">∛</button>
-      <button class="calc-btn fn" onclick="folFn('Math.PI')">π</button>
-      <button class="calc-btn fn" onclick="folFn('Math.E')">e</button>
-      <button class="calc-btn fn" onclick="folFn('**')">xⁿ</button>
-      <button class="calc-btn mem" onclick="folMemStore()">M+</button>
-      <button class="calc-btn mem" onclick="folMemRecall()">MR</button>
-      <button class="calc-btn mem" onclick="folMemClear()">MC</button>
-      <button class="calc-btn fn" onclick="folFn('(')">(</button>
-      <button class="calc-btn fn" onclick="folFn(')')">)</button>
-      <button class="calc-btn" onclick="folApp('7')">7</button>
-      <button class="calc-btn" onclick="folApp('8')">8</button>
-      <button class="calc-btn" onclick="folApp('9')">9</button>
-      <button class="calc-btn op" onclick="folApp('/')">÷</button>
-      <button class="calc-btn clr" onclick="folClear()">C</button>
-      <button class="calc-btn" onclick="folApp('4')">4</button>
-      <button class="calc-btn" onclick="folApp('5')">5</button>
-      <button class="calc-btn" onclick="folApp('6')">6</button>
-      <button class="calc-btn op" onclick="folApp('*')">×</button>
-      <button class="calc-btn clr" onclick="folDel()">⌫</button>
-      <button class="calc-btn" onclick="folApp('1')">1</button>
-      <button class="calc-btn" onclick="folApp('2')">2</button>
-      <button class="calc-btn" onclick="folApp('3')">3</button>
-      <button class="calc-btn op" onclick="folApp('-')">−</button>
-      <button class="calc-btn op" onclick="folApp('%')">%</button>
-      <button class="calc-btn" onclick="folApp('0')">0</button>
-      <button class="calc-btn" onclick="folApp('.')">.</button>
-      <button class="calc-btn eq" onclick="folEquals()">=</button>
-      <button class="calc-btn op" onclick="folApp('+')">+</button>
-      <button class="calc-btn fn" onclick="folApp('**')">yˣ</button>
-    </div>
-  </div>
-</div>
-
-<!-- NOTES WINDOW -->
-<div class="draggable-window" id="win-notes">
-  <div class="window-titlebar" id="titlebar-notes">
-    <div class="window-dots">
-      <div class="window-dot close" onclick="closeFolWindow('win-notes')"></div>
-      <div class="window-dot mini" onclick="closeFolWindow('win-notes')"></div>
-      <div class="window-dot maxb"></div>
-    </div>
-    <div class="window-title">📝 Bloc de Notas FOL</div>
-  </div>
-  <div class="window-body">
-    <div id="notes-body">
-      <div id="notes-toolbar">
-        <button class="notes-tool-btn" onclick="insertFolNote('ET art. ')">ET</button>
-        <button class="notes-tool-btn" onclick="insertFolNote('33 días/año → ')">33d</button>
-        <button class="notes-tool-btn" onclick="insertFolNote('20 días/año → ')">20d</button>
-        <button class="notes-tool-btn" onclick="insertFolNote('12 días/año → ')">12d</button>
-        <button class="notes-tool-btn" onclick="insertFolNote('SMI: ')">SMI</button>
-        <button class="notes-tool-btn" onclick="insertFolNote('SS trabajador: 6,35%\n')">SS%</button>
-        <button class="notes-tool-btn" onclick="insertFolNote('\n---\n')">—</button>
-        <button class="notes-tool-btn" onclick="insertFolNote('☑ ')">☑</button>
-      </div>
-      <textarea id="notes-ta" placeholder="Apunta aquí conceptos, datos para el examen...&#10;&#10;Ej:&#10;Período prueba técnicos: 6 meses&#10;Despido improcedente: 33 días/año máx 24 meses&#10;Huelga preaviso: 5 días (10 serv. esenciales)"></textarea>
-      <div class="notes-footer">
-        <span class="notes-char-count" id="notes-char">0 caracteres</span>
-        <button class="notes-btn" onclick="clearFolNotes()">Borrar</button>
-        <button class="notes-btn" id="btn-save-notes" onclick="saveFolNotes()">Guardar ✓</button>
-      </div>
-    </div>
-  </div>
-</div>
-
 <!-- FOOTER AMPLIO -->
 <footer style="margin-top:0; padding-top:0;">
   <!-- Zona superior del footer con info -->
@@ -2183,9 +1835,14 @@ window.addEventListener('scroll', () => {
   const s = document.documentElement;
   const pct = (s.scrollTop / (s.scrollHeight - s.clientHeight)) * 100;
   document.getElementById('progress-bar').style.width = pct + '%';
+
+  // Easter egg trigger: show when user scrolls past the end
   const trigger = document.getElementById('easter-trigger');
-  if (s.scrollTop + s.clientHeight > s.scrollHeight - 10) trigger.classList.add('visible');
-  else trigger.classList.remove('visible');
+  if (s.scrollTop + s.clientHeight > s.scrollHeight - 10) {
+    trigger.classList.add('visible');
+  } else {
+    trigger.classList.remove('visible');
+  }
 });
 
 // ── ACCORDION ──
@@ -2196,118 +1853,26 @@ function toggleAcc(header) {
   body.classList.toggle('open', !isOpen);
 }
 
-// ── FLIPCARDS DATA (60+ cards with categories) ──
-const allCards = [
-  // CONTRATOS
-  { q: "¿Duración mínima del contrato para la práctica profesional?", a: "6 meses (máximo 1 año)", cat: "contratos" },
-  { q: "¿Qué requisito de edad exige el contrato de formación en alternancia?", a: "Menores de 30 años (sin límite si discapacidad o exclusión social)", cat: "contratos" },
-  { q: "¿Cuántos días máximos al año puede usarse el contrato por producción previsible?", a: "90 días en el año natural", cat: "contratos" },
-  { q: "¿Cuál es la indemnización al finalizar un contrato temporal de circunstancias de la producción?", a: "12 días de salario por año de servicio", cat: "contratos" },
-  { q: "¿Qué porcentaje máximo de jornada puede dedicarse a trabajo en el 1er año de formación en alternancia?", a: "65% (el 35% restante es formación)", cat: "contratos" },
-  { q: "¿El contrato fijo discontinuo es temporal o indefinido?", a: "Indefinido, aunque la actividad sea estacional o intermitente", cat: "contratos" },
-  { q: "¿Cuánto dura el período de prueba en el contrato de práctica profesional?", a: "Máximo 1 mes", cat: "contratos" },
-  { q: "¿Qué contrato se usa para sustituir a un trabajador de baja por IT?", a: "Contrato de sustitución (antes de interinidad)", cat: "contratos" },
-  { q: "¿Hay indemnización al finalizar el contrato de formación en alternancia?", a: "No, ninguna indemnización", cat: "contratos" },
-  { q: "¿Cuándo prescribe el contrato de práctica profesional (plazo desde el título)?", a: "3 años desde la obtención del título (5 si discapacidad)", cat: "contratos" },
-  { q: "¿Qué salario mínimo percibe el trabajador en formación en alternancia el 2º año?", a: "Al menos el 75% del grupo profesional (nunca inferior al SMI)", cat: "contratos" },
-  { q: "¿Qué modalidad de contrato se usa para un proyecto de duración determinada?", a: "Contrato por circunstancias de la producción (causa imprevisible)", cat: "contratos" },
-  { q: "¿Puede un mismo empleado tener dos contratos fijo-discontinuos con la misma empresa?", a: "Sí, si son para actividades distintas", cat: "contratos" },
-  { q: "¿Qué es el contrato de relevo?", a: "Contrato para sustituir parcialmente a trabajadores que acceden a la jubilación parcial", cat: "contratos" },
-
-  // NORMATIVA
-  { q: "¿Qué es el Estatuto de los Trabajadores?", a: "RDL 2/2015 — Ley que regula la relación laboral individual y colectiva", cat: "normativa" },
-  { q: "¿En qué posición jerárquica está el convenio colectivo?", a: "6ª posición, por encima del contrato pero por debajo de los reglamentos", cat: "normativa" },
-  { q: "¿Qué es el principio de norma más favorable?", a: "Ante dos normas en conflicto, se aplica la más beneficiosa para el trabajador en su conjunto", cat: "normativa" },
-  { q: "¿Qué es el principio de condición más beneficiosa?", a: "Los derechos adquiridos del trabajador no pueden ser reducidos aunque cambie la normativa", cat: "normativa" },
-  { q: "¿Qué ley regula la prevención de riesgos laborales?", a: "Ley 31/1995, de Prevención de Riesgos Laborales (LPRL)", cat: "normativa" },
-  { q: "¿Cuál es la Constitución que reconoce el derecho al trabajo en España?", a: "La Constitución Española de 1978 (artículo 35)", cat: "normativa" },
-  { q: "¿Qué son las costumbres locales en la jerarquía normativa?", a: "La fuente supletoria de último rango, solo aplicable si no existe norma específica", cat: "normativa" },
-  { q: "¿Qué organismo internacional fija convenios laborales y es parte de la ONU?", a: "La OIT (Organización Internacional del Trabajo)", cat: "normativa" },
-  { q: "¿Qué diferencia hay entre una ley orgánica y una ley ordinaria?", a: "La ley orgánica requiere mayoría absoluta del Congreso; la ordinaria, mayoría simple", cat: "normativa" },
-
-  // SALARIO
-  { q: "¿Qué es el salario bruto?", a: "El salario total antes de aplicar descuentos de IRPF y Seguridad Social", cat: "salario" },
-  { q: "¿Cuántas pagas extraordinarias como mínimo tiene el trabajador por año?", a: "Mínimo 2 pagas extraordinarias (normalmente verano y Navidad)", cat: "salario" },
-  { q: "¿Qué porcentaje de SS paga el trabajador aproximadamente?", a: "Aproximadamente el 6,35% de su salario bruto", cat: "salario" },
-  { q: "¿Qué es el SMI?", a: "Salario Mínimo Interprofesional: la cuantía mínima que puede percibir cualquier trabajador por jornada completa, fijada anualmente por el Gobierno", cat: "salario" },
-  { q: "¿Pueden prorratearse las pagas extras mensualmente?", a: "Sí, si lo prevé el convenio colectivo o el contrato individual", cat: "salario" },
-  { q: "¿Qué son los complementos salariales personales?", a: "Los que dependen de las características del trabajador: antigüedad, idiomas, titulación especial", cat: "salario" },
-  { q: "¿Cuándo prescribe el derecho a reclamar el salario?", a: "En el plazo de 1 año desde que fue exigible", cat: "salario" },
-  { q: "¿Qué es el FOGASA?", a: "Fondo de Garantía Salarial: paga salarios e indemnizaciones cuando la empresa es insolvente o está en concurso de acreedores", cat: "salario" },
-
-  // JORNADA
-  { q: "¿Cuál es la jornada máxima legal en España?", a: "40 horas semanales de trabajo efectivo en cómputo anual", cat: "jornada" },
-  { q: "¿Cuántas horas extra pueden hacerse como máximo al año?", a: "Máximo 80 horas extraordinarias al año", cat: "jornada" },
-  { q: "¿Cuántas horas mínimas de descanso debe haber entre jornadas?", a: "Mínimo 12 horas entre el final de una jornada y el inicio de la siguiente", cat: "jornada" },
-  { q: "¿Cuántos días mínimos de descanso semanal tiene el trabajador?", a: "1,5 días (36 horas ininterrumpidas, normalmente sábado tarde y domingo)", cat: "jornada" },
-  { q: "¿Qué horario se considera trabajo nocturno?", a: "El realizado entre las 22:00 y las 06:00 horas", cat: "jornada" },
-  { q: "¿Cuántos días de permiso retribuido por matrimonio?", a: "15 días naturales", cat: "jornada" },
-  { q: "¿Cuántas semanas de permiso de nacimiento tiene cada progenitor?", a: "16 semanas (intransferibles, las 6 primeras obligatorias e ininterrumpidas)", cat: "jornada" },
-  { q: "¿Cuántos días de vacaciones mínimas tiene el trabajador por ley?", a: "30 días naturales al año (equivale a 22 días laborables)", cat: "jornada" },
-  { q: "¿Qué descanso mínimo hay si la jornada continua supera 6 horas?", a: "Al menos 15 minutos de descanso", cat: "jornada" },
-  { q: "¿Las vacaciones pueden compensarse económicamente?", a: "No, salvo al extinguir el contrato (se abonan los días no disfrutados)", cat: "jornada" },
-
-  // EXTINCIÓN
-  { q: "¿Cuál es la indemnización por despido improcedente?", a: "33 días de salario por año trabajado, con un máximo de 24 mensualidades", cat: "extincion" },
-  { q: "¿Cuál es la indemnización por despido objetivo (causas ETOP)?", a: "20 días de salario por año trabajado, máximo 12 mensualidades. Preaviso: 15 días", cat: "extincion" },
-  { q: "¿Tiene derecho a indemnización el trabajador que dimite voluntariamente?", a: "No tiene derecho a indemnización ni a prestación por desempleo", cat: "extincion" },
-  { q: "¿Qué es un ERE?", a: "Expediente de Regulación de Empleo: despido colectivo que requiere negociación con los representantes y/o autorización administrativa", cat: "extincion" },
-  { q: "¿Qué es el despido indirecto?", a: "El trabajador solicita la extinción por incumplimiento grave del empresario. Tiene derecho a indemnización como despido improcedente (33 días/año)", cat: "extincion" },
-  { q: "¿Cuántos días de preaviso en la dimisión del trabajador?", a: "Lo que establezca el convenio (generalmente 15 días). Si no hay preaviso, la empresa puede descontar esos días del finiquito", cat: "extincion" },
-  { q: "¿Cuándo un despido disciplinario se considera procedente?", a: "Cuando queda probado el incumplimiento grave y culpable del trabajador. No genera indemnización.", cat: "extincion" },
-  { q: "¿Qué requisito numérico activa un despido colectivo (ERE) en empresa de más de 300 trabajadores?", a: "Afectar al menos a 30 trabajadores en 90 días", cat: "extincion" },
-
-  // SEGURIDAD SOCIAL
-  { q: "¿Cuántos días mínimos cotizados se necesitan para cobrar el desempleo?", a: "360 días en los 6 años anteriores al momento de quedarse en paro", cat: "ss" },
-  { q: "¿Qué porcentaje del paro se cobra los 6 primeros meses?", a: "El 70% de la base reguladora", cat: "ss" },
-  { q: "¿Cuál es la prestación por incapacidad temporal del día 21 en adelante?", a: "75% de la base reguladora", cat: "ss" },
-  { q: "¿Qué es el RETA?", a: "Régimen Especial de Trabajadores Autónomos: el régimen de cotización para trabajadores por cuenta propia", cat: "ss" },
-  { q: "¿A qué edad se puede jubilar un trabajador con 38,5 años cotizados?", a: "A los 65 años (si no, a los 67)", cat: "ss" },
-  { q: "¿Cuántos años cotizados mínimos se necesitan para la pensión contributiva?", a: "15 años cotizados, de los cuales 2 deben estar en los últimos 15 años", cat: "ss" },
-  { q: "¿Qué prestación cubre los 3 primeros días de baja por IT?", a: "Los paga la empresa (salvo accidente de trabajo, que los paga la mutua desde el día 1)", cat: "ss" },
-
-  // PRL
-  { q: "¿Qué ley regula la PRL en España?", a: "Ley 31/1995, de 8 de noviembre, de Prevención de Riesgos Laborales", cat: "prl" },
-  { q: "¿A partir de cuántos trabajadores existe obligación de tener Comité de Seguridad y Salud?", a: "Empresas con 50 o más trabajadores", cat: "prl" },
-  { q: "¿Qué son los EPI?", a: "Equipos de Protección Individual: cualquier equipo destinado a proteger al trabajador frente a riesgos (casco, guantes, gafas, botas...)", cat: "prl" },
-  { q: "¿Qué es un accidente de trabajo?", a: "Toda lesión corporal que sufra el trabajador con ocasión o a consecuencia del trabajo que ejecute por cuenta ajena", cat: "prl" },
-  { q: "¿Qué es una enfermedad profesional?", a: "La contraída a consecuencia del trabajo por cuenta ajena con sustancias o en condiciones recogidas en el cuadro oficial (RD 1299/2006)", cat: "prl" },
-  { q: "¿Qué organismo inspecciona el cumplimiento de la normativa laboral y de PRL?", a: "La ITSS (Inspección de Trabajo y Seguridad Social)", cat: "prl" },
-  { q: "¿Qué son los riesgos psicosociales?", a: "Factores del entorno laboral que pueden afectar a la salud mental: estrés, burnout, acoso laboral (mobbing), violencia en el trabajo", cat: "prl" },
-
-  // REPRESENTACIÓN
-  { q: "¿Cuántos delegados de personal hay en una empresa de 25 trabajadores?", a: "1 delegado de personal", cat: "representacion" },
-  { q: "¿Cuántos miembros tiene el Comité de Empresa en una empresa de 200 trabajadores?", a: "9 miembros (101-250 trabajadores → 9 representantes)", cat: "representacion" },
-  { q: "¿Cuál es el mandato de los representantes de los trabajadores?", a: "4 años, renovables por elección de los trabajadores", cat: "representacion" },
-  { q: "¿Cuántos días de crédito horario mensual tiene un delegado de personal en empresa de 25 a 100 trabajadores?", a: "15 horas mensuales retribuidas para ejercer funciones representativas", cat: "representacion" },
-  { q: "¿Qué es la garantía de no discriminación del representante sindical?", a: "Los representantes no pueden ser despedidos ni sancionados por ejercer sus funciones. Tienen prioridad de permanencia ante un despido colectivo.", cat: "representacion" },
-  { q: "¿Qué son los sindicatos más representativos en España?", a: "CC.OO. (Comisiones Obreras) y UGT (Unión General de Trabajadores) a nivel estatal", cat: "representacion" },
-
-  // CONFLICTOS
-  { q: "¿Cuántos días de preaviso tiene la huelga general?", a: "5 días laborables antes de la huelga", cat: "conflictos" },
-  { q: "¿Cuántos días de preaviso se necesitan para la huelga en servicios esenciales?", a: "10 días laborables antes de la huelga", cat: "conflictos" },
-  { q: "¿Qué es el SMAC?", a: "Servicio de Mediación, Arbitraje y Conciliación: paso previo obligatorio antes de acudir al juzgado de lo social", cat: "conflictos" },
-  { q: "¿Qué tribunal unifica la doctrina laboral en España?", a: "El Tribunal Supremo (Sala 4ª de lo Social)", cat: "conflictos" },
-  { q: "¿Qué es el lock-out o cierre patronal?", a: "El cierre temporal de la empresa por el empresario ante huelga u otras formas de presión colectiva. Solo es legal en casos de riesgo grave para personas o daños relevantes", cat: "conflictos" },
-  { q: "¿Qué es el esquirolaje?", a: "La utilización de trabajadores no huelguistas o contratados para sustituir a los huelguistas. Está prohibido durante la huelga.", cat: "conflictos" },
-
-  // EMPRENDIMIENTO
-  { q: "¿Qué es un TRADE?", a: "Trabajador Autónomo Dependiente Económicamente: recibe ≥75% de sus ingresos de un único cliente", cat: "emprendimiento" },
-  { q: "¿Qué modelo de Hacienda se usa para darse de alta como autónomo?", a: "Modelo 036 o 037 (declaración censal de inicio de actividad)", cat: "emprendimiento" },
-  { q: "¿Qué es la capitalización del desempleo?", a: "Cobrar el paro en un único pago para invertirlo en montar un negocio o hacerse autónomo", cat: "emprendimiento" },
-  { q: "¿Cuánto es la cuota de autónomo en tarifa plana el primer año?", a: "80€/mes durante los primeros 12 meses (ampliable si los ingresos no superan el SMI)", cat: "emprendimiento" },
-  { q: "¿Qué regula la Ley Rider (RDL 9/2021)?", a: "Presume que los repartidores de plataformas digitales (Glovo, Deliveroo) son trabajadores por cuenta ajena, no autónomos", cat: "emprendimiento" },
-  { q: "¿Qué es el análisis DAFO?", a: "Herramienta que analiza Debilidades, Amenazas, Fortalezas y Oportunidades de un proyecto o empresa", cat: "emprendimiento" },
-  { q: "¿Cuál es el capital mínimo para constituir una Sociedad Limitada (SL) desde 2023?", a: "1 euro (antes era 3.000€). La reforma lo redujo para facilitar el emprendimiento.", cat: "emprendimiento" },
-  { q: "¿Cuál es el capital mínimo para constituir una Sociedad Anónima (SA)?", a: "60.000 euros, de los que deben desembolsarse al menos el 25% en el momento de la constitución", cat: "emprendimiento" },
+// ── FLIPCARDS ──
+const cards = [
+  { q: "¿Cuántos días de preaviso para declarar una huelga?", a: "5 días (10 en servicios esenciales)" },
+  { q: "¿Qué es el Estatuto de los Trabajadores?", a: "Ley que regula la relación laboral individual y colectiva" },
+  { q: "¿Duración mínima del contrato en prácticas?", a: "6 meses" },
+  { q: "¿Cuántos trabajadores se necesitan para un Comité de Empresa?", a: "50 trabajadores" },
+  { q: "¿Vacaciones mínimas anuales?", a: "30 días naturales" },
+  { q: "¿Qué es la relación laboral especial del MIR?", a: "Personal médico interno residente en período de formación" },
+  { q: "¿Plazo para sancionar faltas muy graves?", a: "60 días desde que la empresa tuvo conocimiento" },
+  { q: "¿Qué es el SMAC?", a: "Servicio de Mediación, Arbitraje y Conciliación (paso previo al juicio)" },
+  { q: "¿Indemnización del contrato por circunstancias de la producción?", a: "12 días de salario por año de servicio" },
+  { q: "¿Qué tribunal unifica doctrina laboral en España?", a: "El Tribunal Supremo (Sala de lo Social)" },
+  { q: "¿Período de prueba máximo para técnicos titulados?", a: "6 meses" },
+  { q: "¿Cuál es el % de Seguridad Social que paga el trabajador?", a: "6,35% (aprox.)" },
 ];
 
-// ── RENDER FLASHCARDS ──
 const grid = document.getElementById('flashcardGrid');
-allCards.forEach((c, idx) => {
+cards.forEach(c => {
   const fc = document.createElement('div');
   fc.className = 'flipcard';
-  fc.dataset.cat = c.cat;
   fc.innerHTML = `<div class="flipcard-inner">
     <div class="flipcard-front"><span>${c.q}</span></div>
     <div class="flipcard-back"><span>${c.a}</span></div>
@@ -2315,23 +1880,6 @@ allCards.forEach((c, idx) => {
   fc.addEventListener('click', () => fc.classList.toggle('flipped'));
   grid.appendChild(fc);
 });
-updateFcCounter();
-
-function filterCards(cat, btn) {
-  document.querySelectorAll('.fc-filter-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  document.querySelectorAll('.flipcard').forEach(fc => {
-    if (cat === 'all' || fc.dataset.cat === cat) fc.classList.remove('hidden');
-    else fc.classList.add('hidden');
-  });
-  updateFcCounter();
-}
-
-function updateFcCounter() {
-  const visible = document.querySelectorAll('.flipcard:not(.hidden)').length;
-  const total = allCards.length;
-  document.getElementById('fcCounter').textContent = `Mostrando ${visible} de ${total} tarjetas`;
-}
 
 // ── CALCULADORA ──
 function calcSalario() {
@@ -2362,6 +1910,7 @@ function checkEj1() {
 // ── DRAG & DROP ──
 let dragSrc = null;
 const correctOrder = ['Norma UE','Constitución','Ley orgánica','Reglamento','Convenio colectivo','Contrato de trabajo'];
+
 document.querySelectorAll('.drag-item').forEach(item => {
   item.addEventListener('dragstart', e => { dragSrc = item; item.classList.add('dragging'); });
   item.addEventListener('dragend', () => item.classList.remove('dragging'));
@@ -2381,20 +1930,31 @@ document.querySelectorAll('.drop-slot').forEach(slot => {
     slot.classList.remove('over');
   });
 });
+
 function checkDrag() {
   const slots = document.querySelectorAll('.drop-slot');
   let filled = Array.from(slots).map(s => s.dataset.filled || '');
   let correct = 0;
-  filled.forEach((val, i) => { if (val === correctOrder[i]) correct++; });
+  filled.forEach((val, i) => {
+    if (val === correctOrder[i]) correct++;
+  });
   const fb = document.getElementById('fb2');
   fb.className = correct === correctOrder.length ? 'ex-feedback show-good' : 'ex-feedback show-neutral';
   fb.innerHTML = correct === correctOrder.length
     ? '✅ ¡Perfecto! Orden correcto: Norma UE → Constitución → Ley orgánica → Reglamento → Convenio colectivo → Contrato de trabajo.'
     : `Has acertado ${correct}/${correctOrder.length}. El orden correcto es: <strong>Norma UE → Constitución → Ley orgánica → Reglamento → Convenio colectivo → Contrato de trabajo</strong>.`;
 }
+
 function resetDrag() {
-  document.querySelectorAll('.drop-slot').forEach(s => { s.textContent = s.dataset.pos + 'º ···'; s.classList.remove('filled'); delete s.dataset.filled; });
-  document.querySelectorAll('.drag-item').forEach(i => { i.style.opacity = '1'; i.draggable = true; });
+  document.querySelectorAll('.drop-slot').forEach(s => {
+    s.textContent = s.dataset.pos + 'º ···';
+    s.classList.remove('filled');
+    delete s.dataset.filled;
+  });
+  document.querySelectorAll('.drag-item').forEach(i => {
+    i.style.opacity = '1';
+    i.draggable = true;
+  });
   document.getElementById('fb2').className = 'ex-feedback';
 }
 
@@ -2417,12 +1977,13 @@ matchData.forEach((item, i) => {
     <select class="match-select" id="match_${i}"><option value="">Selecciona...</option>${opts}</select>`;
   mZone.appendChild(row);
 });
+
 function checkMatching() {
   let correct = 0;
   matchData.forEach((item, i) => {
     const sel = document.getElementById('match_' + i);
     if (sel.value === item.correct) { correct++; sel.style.borderColor = 'var(--accent1)'; }
-    else sel.style.borderColor = 'var(--accent4)';
+    else { sel.style.borderColor = 'var(--accent4)'; }
   });
   const fb = document.getElementById('fb3');
   fb.className = correct === matchData.length ? 'ex-feedback show-good' : 'ex-feedback show-neutral';
@@ -2433,15 +1994,33 @@ function checkMatching() {
 
 // ── SCENARIO ──
 const scenarios = [
-  { q: "La empresa Techify SL tiene un pico de trabajo por la campaña de Navidad y necesita contratar a alguien durante 2 meses. ¿Qué contrato debe usar?", options: ["Contrato indefinido ordinario","Contrato por circunstancias de la producción (previsible)","Contrato de sustitución","Contrato de formación en alternancia"], correct: 1, explanation: "La campaña de Navidad es un incremento ocasional y previsible de la actividad. Se usa el contrato por circunstancias de la producción (causas previsibles), con máximo de 90 días/año natural." },
-  { q: "Beatriz, que tiene el título de CFGS en ASIR desde hace 2 años, quiere conseguir experiencia práctica. ¿Cuánto puede durar su contrato formativo de práctica profesional?", options: ["Entre 3 meses y 2 años","Entre 6 meses y 1 año","Hasta 3 años","Máximo 6 meses"], correct: 1, explanation: "El contrato para la obtención de la práctica profesional tiene una duración de entre 6 meses y 1 año. Beatriz aún puede acceder a él (dentro de los 3 años siguientes al título)." },
-  { q: "Juan lleva 8 años en la empresa y lo despiden por causas económicas (ETOP). ¿Cuánto cobra de indemnización si su salario mensual es de 2.000€?", options: ["33 días × 8 años = 264 días","20 días × 8 años = 160 días","12 días × 8 años = 96 días","Ninguna, el despido objetivo no indemniza"], correct: 1, explanation: "El despido objetivo (causas ETOP) da derecho a 20 días de salario por año trabajado, máximo 12 mensualidades. 20 × 8 = 160 días de salario ≈ 10.667€ (160 × 66,67€/día)." },
-  { q: "Una empresa de tecnología tiene 75 trabajadores. ¿Qué órgano de representación tienen?", options: ["Solo delegados de personal (3)","Comité de empresa con 5 representantes","Comité de empresa con 9 representantes","No tienen representación obligatoria"], correct: 1, explanation: "Con 50 a 100 trabajadores, se constituye un Comité de Empresa con 5 representantes (no delegados de personal, que solo existen hasta 49 trabajadores)." },
-  { q: "Ana es programadora freelance y el 80% de sus ingresos provienen de una sola empresa. ¿Cómo se clasifica jurídicamente?", options: ["Trabajadora por cuenta ajena ordinaria","TRADE (Trabajador Autónomo Dependiente Económicamente)","Relación laboral especial de alta dirección","Autónoma ordinaria sin peculiaridades"], correct: 1, explanation: "Al recibir más del 75% de sus ingresos de un único cliente, Ana cumple el requisito para ser TRADE según la Ley 20/2007 (LETA). Tiene derechos adicionales como 18 días de vacaciones." },
+  {
+    q: "La empresa Techify SL tiene un pico de trabajo por la campaña de Navidad y necesita contratar a alguien durante 2 meses. ¿Qué contrato debe usar?",
+    options: [
+      "Contrato indefinido ordinario",
+      "Contrato por circunstancias de la producción (previsible)",
+      "Contrato de sustitución",
+      "Contrato de formación en alternancia"
+    ],
+    correct: 1,
+    explanation: "La campaña de Navidad es un incremento ocasional y previsible de la actividad. Se usa el contrato por circunstancias de la producción (causas previsibles), con máximo de 90 días/año natural."
+  },
+  {
+    q: "Beatriz, que tiene el título de CFGS en ASIR desde hace 2 años, quiere conseguir experiencia práctica. ¿Cuánto puede durar su contrato formativo de práctica profesional?",
+    options: [
+      "Entre 3 meses y 2 años",
+      "Entre 6 meses y 1 año",
+      "Hasta 3 años",
+      "Máximo 6 meses"
+    ],
+    correct: 1,
+    explanation: "El contrato para la obtención de la práctica profesional tiene una duración de entre 6 meses y 1 año. Beatriz aún puede acceder a él (dentro de los 3 años siguientes al título)."
+  }
 ];
 
 let currentScenario = 0;
 const sCont = document.getElementById('scenarioContainer');
+
 function renderScenario(idx) {
   if (idx >= scenarios.length) {
     sCont.innerHTML = '<div class="highlight">🎉 ¡Has completado todos los escenarios! Vuelve a repasarlos si quieres.</div>';
@@ -2456,6 +2035,7 @@ function renderScenario(idx) {
     <div class="ex-feedback" id="sfb"></div>
   </div>`;
 }
+
 function answerScenario(chosen) {
   const s = scenarios[currentScenario];
   const opts = document.querySelectorAll('.scenario-option');
@@ -2468,6 +2048,7 @@ function answerScenario(chosen) {
   fb.className = chosen === s.correct ? 'ex-feedback show-good' : 'ex-feedback show-neutral';
   fb.innerHTML = (chosen === s.correct ? '✅ ¡Correcto! ' : '❌ No exactamente. ') + s.explanation + ' <button class="btn btn-secondary" style="margin-top:8px;font-size:12px;" onclick="nextScenario()">Siguiente →</button>';
 }
+
 function nextScenario() { currentScenario++; renderScenario(currentScenario); }
 renderScenario(0);
 
@@ -2486,191 +2067,47 @@ function checkEj6() {
   const fb = document.getElementById('fb6');
   if (!v) { fb.className='ex-feedback show-neutral'; fb.innerHTML='Escribe tu respuesta primero.'; return; }
   fb.className = 'ex-feedback show-good';
-  fb.innerHTML = `<strong>Respuesta:</strong> Con 320 trabajadores, la empresa necesita un <strong>Comité de Empresa</strong>. Con 251 a 500 trabajadores, corresponden <strong>13 representantes</strong>.`;
+  fb.innerHTML = `<strong>Respuesta:</strong> Con 320 trabajadores, la empresa necesita un <strong>Comité de Empresa</strong> (ya que supera los 50 trabajadores). Los delegados de personal solo se usan hasta 49 trabajadores. Con 251 a 500 trabajadores, corresponden <strong>13 representantes</strong> en el comité.`;
 }
-
-// ── FLOATING WINDOWS (Calculadora y Notas) ──
-let _zTop = 600, _wDrag = null;
-
-function openFolWindow(id) {
-  const win = document.getElementById(id);
-  if (!win) return;
-  win.classList.add('open');
-  win.style.zIndex = ++_zTop;
-  if (!win._pos) {
-    win._pos = true;
-    const W = window.innerWidth, H = window.innerHeight;
-    const w = win.offsetWidth || 340, h = win.offsetHeight || 400;
-    win.style.left = Math.max(0, (W - w) / 2) + 'px';
-    win.style.top  = Math.max(0, (H - h) / 4) + 'px';
-    win.style.right = 'auto'; win.style.bottom = 'auto';
-  }
-}
-function closeFolWindow(id) {
-  const win = document.getElementById(id);
-  if (win) win.classList.remove('open');
-}
-
-// Drag
-document.addEventListener('mousedown', e => {
-  const tb = e.target.closest('.window-titlebar');
-  if (!tb || e.target.classList.contains('window-dot')) return;
-  const win = tb.closest('.draggable-window');
-  if (!win) return;
-  win.style.zIndex = ++_zTop;
-  const r = win.getBoundingClientRect();
-  _wDrag = { win, ox: e.clientX - r.left, oy: e.clientY - r.top };
-  e.preventDefault();
-});
-document.addEventListener('mousemove', e => {
-  if (!_wDrag) return;
-  let x = Math.max(0, Math.min(window.innerWidth - 60, e.clientX - _wDrag.ox));
-  let y = Math.max(0, Math.min(window.innerHeight - 40, e.clientY - _wDrag.oy));
-  _wDrag.win.style.left = x + 'px'; _wDrag.win.style.top = y + 'px';
-  _wDrag.win.style.right = 'auto'; _wDrag.win.style.bottom = 'auto';
-});
-document.addEventListener('mouseup', () => _wDrag = null);
-document.addEventListener('touchstart', e => {
-  const tb = e.target.closest('.window-titlebar');
-  if (!tb || e.target.classList.contains('window-dot')) return;
-  const win = tb.closest('.draggable-window');
-  if (!win) return;
-  win.style.zIndex = ++_zTop;
-  const r = win.getBoundingClientRect(), t = e.touches[0];
-  _wDrag = { win, ox: t.clientX - r.left, oy: t.clientY - r.top };
-}, { passive: true });
-document.addEventListener('touchmove', e => {
-  if (!_wDrag) return;
-  const t = e.touches[0];
-  let x = Math.max(0, Math.min(window.innerWidth - 60, t.clientX - _wDrag.ox));
-  let y = Math.max(0, Math.min(window.innerHeight - 40, t.clientY - _wDrag.oy));
-  _wDrag.win.style.left = x + 'px'; _wDrag.win.style.top = y + 'px';
-  _wDrag.win.style.right = 'auto'; _wDrag.win.style.bottom = 'auto';
-}, { passive: true });
-document.addEventListener('touchend', () => _wDrag = null);
-
-// ── SCIENTIFIC CALCULATOR ──
-let _expr = '', _mode = 'deg', _sci = false, _mem = 0;
-
-function setFolMode(m) {
-  if (m === 'sci') { _sci = !_sci; document.getElementById('mode-sci').classList.toggle('active', _sci); return; }
-  _mode = m;
-  document.getElementById('mode-deg').classList.toggle('active', m === 'deg');
-  document.getElementById('mode-rad').classList.toggle('active', m === 'rad');
-}
-function folApp(ch) { _expr += ch; _renderCalc(); }
-function folFn(fn) { _expr += fn; _renderCalc(); }
-function folClear() { _expr = ''; _renderCalc(true); }
-function folDel() { _expr = _expr.slice(0, -1); _renderCalc(); }
-function _renderCalc(reset) {
-  const ex = document.getElementById('calc-expr'), re = document.getElementById('calc-result');
-  if (ex) ex.textContent = _expr || '';
-  if (reset && re) re.textContent = '0';
-}
-function folEquals() {
-  const re = document.getElementById('calc-result'), hist = document.getElementById('calc-hist');
-  try {
-    let expr = _expr
-      .replace(/log10\(/g, 'Math.log10(').replace(/ln\(/g, 'Math.log(')
-      .replace(/abs\(/g, 'Math.abs(').replace(/sqrt\(/g, 'Math.sqrt(');
-    if (_mode === 'deg') {
-      expr = expr
-        .replace(/asin\(/g, '(180/Math.PI)*Math.asin(').replace(/acos\(/g, '(180/Math.PI)*Math.acos(').replace(/atan\(/g, '(180/Math.PI)*Math.atan(')
-        .replace(/\bsin\(([^)]+)\)/g, (_, a) => `Math.sin(Math.PI/180*(${a}))`)
-        .replace(/\bcos\(([^)]+)\)/g, (_, a) => `Math.cos(Math.PI/180*(${a}))`)
-        .replace(/\btan\(([^)]+)\)/g, (_, a) => `Math.tan(Math.PI/180*(${a}))`);
-    } else {
-      expr = expr.replace(/asin\(/g,'Math.asin(').replace(/acos\(/g,'Math.acos(').replace(/atan\(/g,'Math.atan(')
-        .replace(/\bsin\(/g,'Math.sin(').replace(/\bcos\(/g,'Math.cos(').replace(/\btan\(/g,'Math.tan(');
-    }
-    let result = Function('"use strict"; return (' + expr + ')')();
-    result = Math.round(result * 1e8) / 1e8;
-    if (_sci) result = result.toExponential(4);
-    if (re) re.textContent = result;
-    if (hist) hist.textContent = _expr + ' = ' + result;
-    _expr = String(result);
-  } catch(e) {
-    if (re) { re.textContent = 'Error'; setTimeout(() => { if(re) re.textContent = '0'; }, 800); }
-  }
-}
-function folMemStore() { try { _mem = parseFloat(document.getElementById('calc-result').textContent); } catch(e){} }
-function folMemRecall() { _expr += String(_mem); _renderCalc(); }
-function folMemClear() { _mem = 0; }
-
-document.addEventListener('keydown', e => {
-  const win = document.getElementById('win-calc');
-  if (!win || !win.classList.contains('open')) return;
-  if ('0123456789.+-*/()'.includes(e.key)) { folApp(e.key); e.preventDefault(); }
-  else if (e.key === 'Enter' || e.key === '=') { folEquals(); e.preventDefault(); }
-  else if (e.key === 'Backspace') { folDel(); e.preventDefault(); }
-  else if (e.key === 'Escape') closeFolWindow('win-calc');
-});
-
-// ── NOTES ──
-const FOL_NOTES_KEY = 'fol_notes_v1';
-function _loadNotes() {
-  try {
-    const s = localStorage.getItem(FOL_NOTES_KEY) || '';
-    const ta = document.getElementById('notes-ta');
-    if (ta) ta.value = s;
-    _updateNoteCount();
-  } catch(e) {}
-}
-function saveFolNotes() {
-  const ta = document.getElementById('notes-ta'), btn = document.getElementById('btn-save-notes');
-  try { if (ta) localStorage.setItem(FOL_NOTES_KEY, ta.value); } catch(e) {}
-  if (btn) { btn.textContent = 'Guardado ✓'; setTimeout(() => btn.textContent = 'Guardar ✓', 1500); }
-}
-function clearFolNotes() {
-  if (confirm('¿Borrar todas las notas?')) {
-    const ta = document.getElementById('notes-ta');
-    if (ta) ta.value = '';
-    try { localStorage.removeItem(FOL_NOTES_KEY); } catch(e) {}
-    _updateNoteCount();
-  }
-}
-function insertFolNote(txt) {
-  const ta = document.getElementById('notes-ta');
-  if (!ta) return;
-  const s = ta.selectionStart, e2 = ta.selectionEnd;
-  ta.value = ta.value.slice(0, s) + txt + ta.value.slice(e2);
-  ta.selectionStart = ta.selectionEnd = s + txt.length;
-  ta.focus();
-  _updateNoteCount();
-}
-function _updateNoteCount() {
-  const ta = document.getElementById('notes-ta'), lbl = document.getElementById('notes-char');
-  if (ta && lbl) lbl.textContent = ta.value.length + ' caracteres';
-}
-document.addEventListener('DOMContentLoaded', () => {
-  _loadNotes();
-  const ta = document.getElementById('notes-ta');
-  if (ta) ta.addEventListener('input', () => {
-    _updateNoteCount();
-    clearTimeout(ta._t);
-    ta._t = setTimeout(saveFolNotes, 1200);
-  });
-});
 
 // ── EASTER EGG ──
-const chaosWords = ["slap battles","forsaken","eddy es gordo","AHHHHHHHHHH","john doe","coolkid","god hand","ostiaaa","hehe"];
+const chaosWords = [
+  "slap battles", "forsaken", "eddy es gordo", "AHHHHHHHHHH",
+  "john doe", "coolkid", "god hand", "ostiaaa", "hehe"
+];
+
 let easterActivated = false;
 document.getElementById('easter-trigger').addEventListener('click', () => {
   if (easterActivated) return;
   easterActivated = true;
+
+  // Replace all text nodes
   const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
     acceptNode: n => {
-      if (['SCRIPT','STYLE','NOSCRIPT'].includes(n.parentNode.tagName)) return NodeFilter.FILTER_REJECT;
+      const skip = ['SCRIPT','STYLE','NOSCRIPT'];
+      if (skip.includes(n.parentNode.tagName)) return NodeFilter.FILTER_REJECT;
       if (n.textContent.trim() === '') return NodeFilter.FILTER_REJECT;
       return NodeFilter.FILTER_ACCEPT;
     }
   });
+
   const nodes = [];
   while (walker.nextNode()) nodes.push(walker.currentNode);
-  nodes.forEach(node => { const w = node.textContent.split(/\s+/); node.textContent = w.map(() => chaosWords[Math.floor(Math.random() * chaosWords.length)]).join(' '); });
+
+  nodes.forEach(node => {
+    const words = node.textContent.split(/\s+/);
+    node.textContent = words.map(() => chaosWords[Math.floor(Math.random() * chaosWords.length)]).join(' ');
+  });
+
+  // Flash
+  document.body.style.animation = 'chaosPulse 0.3s 3';
   document.body.style.filter = 'hue-rotate(180deg)';
   setTimeout(() => { document.body.style.filter = ''; }, 900);
+
+  // Title
   document.title = '🚨 OSTIAAA 🚨';
+
+  // Wiggle the easter egg button
   const btn = document.getElementById('easter-trigger');
   btn.style.transform = 'translateX(-50%) rotate(720deg) scale(2)';
   btn.style.transition = 'all 1s cubic-bezier(0.34,1.56,0.64,1)';
